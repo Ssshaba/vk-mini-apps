@@ -4,7 +4,7 @@ import { SplitCol, CellButton, SplitLayout, View, Panel, PanelHeader, Group, But
 import { useAdaptivityConditionalRender } from '@vkontakte/vkui';
 
 const Modal = (props) => {
-
+    // не использовать это модальное окно, как пример брать из Home
     const CustomPopout = ({ onClose }) => {
         const { sizeX } = useAdaptivityConditionalRender();
         return (

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { View, Panel, PanelHeader, Header, Button, Group, Cell, Div, Avatar, PanelHeaderClose, ModalRoot, ModalPage, ModalPageHeader, FixedLayout } from '@vkontakte/vkui';
+import { View, Panel, PanelHeader, Header, Button, Group, Cell, Div, Avatar, PanelHeaderClose, ModalRoot, ModalPage, ModalPageHeader,SplitLayout, FixedLayout } from '@vkontakte/vkui';
 
 const Home = ({ id, go, fetchedUser }) => {
 	const [modal, setModal] = useState(null); // Состояние модального окна
@@ -53,10 +53,13 @@ const Home = ({ id, go, fetchedUser }) => {
 						<Button stretched size="l"  onClick={go} data-to="modal">
 							modal
 						</Button>
+						<Button stretched size="l"  onClick={go} data-to="share">
+							панель с кнопкой поделиться
+						</Button>
 					</Div>
 				</Group>
 
-				{modal}
+				<SplitLayout modal={modal}></SplitLayout>
 
 
 

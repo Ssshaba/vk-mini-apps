@@ -7,6 +7,9 @@ import Home from './panels/Home';
 import Persik from './panels/Persik';
 import NewPage from './panels/NewPage';
 import Modal from './panels/Modal';
+import Share from './panels/Share';
+import async from "async"; // Замените на путь к вашему компоненту "Поделиться"
+
 
 
 const App = () => {
@@ -54,6 +57,28 @@ const App = () => {
 			});
 
 	}, []);
+	useEffect(() => {
+		async function fetchTokenData(){
+			const token = await bridge.send('VKWebAppGetAuthToken', {
+				app_id: 51766180,
+				scope: 'friends,status',
+			});
+
+			const friends = await bridge.send('VKWebAppCallAPIMethod', {
+				method: 'friends.get',
+				params: {
+					order:'random',
+					fields:'bdate, can_post, photo_100',
+					v: '5.131',
+					access_token: token.access_token
+				}});
+
+
+			console.log(friends)
+		}
+		fetchTokenData();
+	}, []);
+
 
 	const go = e => {
 		setActivePanel(e.currentTarget.dataset.to);
@@ -71,6 +96,7 @@ const App = () => {
 								<Persik id='persik' go={go} />
 								<NewPage id='new_page' go={go} />
 								<Modal id='modal' go={go} />
+								<Share id="share" go={go} />
 							</View>
 						</SplitCol>
 					</SplitLayout>
