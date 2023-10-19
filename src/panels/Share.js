@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Panel, PanelHeader, Button, Div } from '@vkontakte/vkui';
 import bridge from '@vkontakte/vk-bridge';
+import ParticipantsList from "./components/ParticipantsList";
+
 
 const Share = ({ id, go }) => {
     const handleGetFriendsClick = async () => {
@@ -29,6 +31,8 @@ const Share = ({ id, go }) => {
                     <Button stretched size="l" onClick={handleGetFriendsClick}>
                         Поделиться
                     </Button>
+
+                    <ParticipantsList />
                 </Div>
             </Panel>
         </View>
