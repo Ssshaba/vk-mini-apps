@@ -1,28 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import bridge from '@vkontakte/vk-bridge';
-import { View,
+import React, {useEffect, useState} from 'react';
+import {
+	View,
 	AdaptivityProvider,
 	AppRoot,
 	ConfigProvider,
 	SplitLayout,
-	SplitCol,
-	 } from '@vkontakte/vkui';
-import '@vkontakte/vkui/dist/vkui.css';
-
+	SplitCol, Epic, TabbarItem, Tabbar,
+} from '@vkontakte/vkui';
 import Home from './panels/Home';
-import MyEvent from './panels/MyEvent';
-import Score from './panels/Score';
 import Event from './panels/Event';
-import Record from './panels/Record';
 
+import '@vkontakte/vkui/dist/vkui.css';
+import MyEvent from "./panels/MyEvent";
+import Score from "./panels/Score";
+import Record from "./panels/Record";
+import bridge from "@vkontakte/vk-bridge";
+import {Icon28FavoriteOutline, Icon28HomeOutline} from "@vkontakte/icons";
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
+	const [selectedEventId, setSelectedEventId] = useState(null);
 	const [fetchedUser, setUser] = useState(null);
-	const [popout, setPopout] = useState(null);
-	const [activeStory, setActiveStory] = React.useState('main');
 
-	useEffect(() => {
+
+
+		useEffect(() => {
 		async function fetchData() {
 			const user = await bridge.send('VKWebAppGetUserInfo');
 			//console.log('Информация о пользователе:', user);
@@ -79,7 +81,21 @@ const App = () => {
 			});
 
 	}, []);
-	// не нужно
+
+
+
+	const handleEventClick = (eventId) => {
+		setSelectedEventId(eventId.toString());// Установка ID выбранного мероприятия
+		setActivePanel('event'); // Переключение на панель Event
+	};
+
+		const go = e => {
+		setActivePanel(e.currentTarget.dataset.to);
+	};
+
+
+
+	//не нужно
 	// useEffect(() => {
 	// 	async function fetchTokenData(){
 	// 		const token = await bridge.send('VKWebAppGetAuthToken', {
@@ -102,32 +118,57 @@ const App = () => {
 	// 	fetchTokenData();
 	// }, []);
 
-
-	const go = e => {
-		setActivePanel(e.currentTarget.dataset.to);
-	};
-
-	const onStoryChange = (e) => setActiveStory(e.currentTarget.dataset.story);
-
 	return (
 		<ConfigProvider>
 			<AdaptivityProvider>
 				<AppRoot >
-					<SplitLayout popout={popout}>
+					<SplitLayout popout={null}>
 						<SplitCol>
 							<View activePanel={activePanel} >
-								<Home id='home' fetchedUser={fetchedUser} go={go} />
+								<Home id='home'
+									  fetchedUser={fetchedUser}
+									  go={go}
+									  handleEventClick={handleEventClick}
+									 />
 								<MyEvent id='myevent' go={go} />
 								<Score id="score" go={go} />
-								<Event id="event" go={go} />
+								<Event id='event'
+									   activePanel={activePanel}
+									   setActivePanel={setActivePanel}
+									   selectedEventId={selectedEventId}
+									   go={go}
+								/>
 								<Record id="record" go={go} />
 							</View>
 						</SplitCol>
 					</SplitLayout>
-				</AppRoot>
-			</AdaptivityProvider>
-		</ConfigProvider>
+					{/*/!* Показываем Epic только на страницах 'home' и 'myevent' *!/*/}
+					{/*{activePanel === 'home' || activePanel === 'myevent' ? (*/}
+					{/*	<Epic activeStory={activePanel}>*/}
+					{/*		<Tabbar>*/}
+					{/*			<TabbarItem*/}
+					{/*				onClick={() => setActivePanel('home')}*/}
+					{/*				selected={activePanel === 'home'}*/}
+					{/*				data-story="home"*/}
+					{/*				text="Home"*/}
+					{/*			>*/}
+					{/*				<Icon28HomeOutline/>*/}
+					{/*			</TabbarItem>*/}
+					{/*			<TabbarItem*/}
+					{/*				onClick={() => setActivePanel('myevent')}*/}
+					{/*				selected={activePanel === 'myevent'}*/}
+					{/*				data-story="myevent"*/}
+					{/*				text="My Events"*/}
+					{/*			>*/}
+					{/*				<Icon28FavoriteOutline/>*/}
+					{/*			</TabbarItem>*/}
+					{/*		</Tabbar>*/}
+					{/*	</Epic>*/}
+					{/*) : null}*/}
+							</AppRoot>
+			 			</AdaptivityProvider>
+			 		</ConfigProvider>
 	);
-}
+};
 
 export default App;
