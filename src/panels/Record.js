@@ -21,13 +21,18 @@ import bridge from "@vkontakte/vk-bridge";
 
 const Record = ({ id, go }) => {
     const [snackbar, setSnackbar] = useState(null); // Состояние уведомления
-
     const [name, setFullName] = useState('');
     const [group, setGroup] = useState('');
     const [phone, setPhoneNumber] = useState('');
     const [faculty, setFaculty] = useState('');
+    const [formValid, setFormValid] = useState(false);
 
     const [user, setUser] = useState(null); // Состояние информации о пользователе
+
+    const [nameError, setNameError] = useState('');
+    const [groupError, setGroupError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
+    const [facultyError, setFacultyError] = useState('');
 
     // Функция для получения информации о пользователе
     const fetchData = async () => {
@@ -45,8 +50,38 @@ const Record = ({ id, go }) => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        if (snackbar && id === 'record') {
+            const timeoutId = setTimeout(() => {
+                go({ currentTarget: { dataset: { to: 'myevent' } } });
+            }, 2000);
+            return () => clearTimeout(timeoutId);
+        }
+    }, [snackbar, id, go]);
+
+    useEffect(() => {
+        const isNameValid = name.trim() !== '';
+        const isGroupValid = group.trim() !== '';
+        const isPhoneValid = phone.trim() !== '';
+        const isFacultyValid = faculty.trim() !== '';
+
+        setFormValid(isNameValid && isGroupValid && isPhoneValid && isFacultyValid);
+
+        // Обновляем сообщения об ошибках
+        setNameError(isNameValid ? '' : 'Заполните это поле');
+        setGroupError(isGroupValid ? '' : 'Заполните это поле');
+        setPhoneError(isPhoneValid ? '' : 'Заполните это поле');
+        setFacultyError(isFacultyValid ? '' : 'Заполните это поле');
+    }, [name, group, phone, faculty]);
+
 
     const handleSend = async (name, group, phone, faculty) => {
+        // Проверяем, что все поля заполнены перед отправкой
+        if (!formValid) {
+            console.error('Заполните все обязательные поля');
+            return;
+        }
+
         try {
             // Собираем данные для отправки
             const dataToSend = {
@@ -81,22 +116,26 @@ const Record = ({ id, go }) => {
                 // Обработка ошибки
                 console.error('Ошибка при отправке данных на сервер');
             }
-        } catch (error) {
-            console.error('Ошибка при отправке данных на сервер:'); // , error
-
-            console.error('Статус ошибки:', error.status);
-            console.error('Текст ошибки:', error.statusText);
-        }
 
         // После успешной отправки показываем уведомление
         setSnackbar(
             <Snackbar
-                onClose={() => setSnackbar(null)}
+                onClose={() => {
+                    setSnackbar(null);                    
+                }}
                 before={<Icon28CheckCircleOutline fill="var(--vkui--color_icon_positive)" />}
             >
                 Данные успешно отправлены!
             </Snackbar>
         );
+
+        } catch (error) {
+            console.error('Ошибка при отправке данных на сервер:'); // , error
+            console.error('Ошибка при отправке данных на сервер:', error); // для проверки заполненности полей
+
+            console.error('Статус ошибки:', error.status);
+            console.error('Текст ошибки:', error.statusText);
+        }
     };
 
     return (
@@ -104,7 +143,7 @@ const Record = ({ id, go }) => {
             <Panel id={id}>
                 <PanelHeader  before={<PanelHeaderBack onClick={go} data-to="event"/>}>Регистрация</PanelHeader>
                     <FormLayout>
-                        <FormItem top="ФИО" htmlFor="name">
+                        <FormItem top="ФИО" htmlFor="name" bottom={nameError}>
                             <Input
                                 id="name"
                                 type="text"
@@ -117,7 +156,7 @@ const Record = ({ id, go }) => {
                             />
                         </FormItem>
 
-                        <FormItem top="Группа" htmlFor="group">
+                        <FormItem top="Группа" htmlFor="group" bottom={groupError}>
                             <Input
                                 id="group"
                                 type="text" // Замените 'group' на 'text'
@@ -127,9 +166,7 @@ const Record = ({ id, go }) => {
                             />
                         </FormItem>
 
-                        <FormItem
-                            top="Факультет"
-                        >
+                        <FormItem top="Факультет" bottom={facultyError}>
                             <Select
                                 placeholder="Выберите факультет"
                                 options={[
@@ -144,7 +181,7 @@ const Record = ({ id, go }) => {
 
                         </FormItem>
 
-                        <FormItem top="Телефон" htmlFor="phone">
+                        <FormItem top="Телефон" htmlFor="phone" bottom={phoneError}>
                             <Input id="phone"
                                    type="tel"
                                    placeholder="+79001001122"

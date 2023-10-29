@@ -45,16 +45,16 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                                 <Title level="1" weight="bold" style={{fontSize: '22px'}}>
                                     {eventInfo.name}
                                 </Title>
-                                <Div style={{display: 'flex', fontSize: '20px'}}>
+                                <div style={{display: 'flex', fontSize: '20px', paddingTop: '10px'}}>
                                     <Icon20DonateOutline fill="var(--vkui--color_icon_positive)"
                                                          style={{marginRight: '8px'}}/>
                                     <Text weight="2">{eventInfo.points} баллов</Text>
-                                </Div>
+                                </div>
                                 <Text weight="3">{eventInfo.location} · {eventInfo.date}</Text>
-                                <Title level="2" weight="bold" style={{fontSize: '22px', paddingTop: '16px'}}>
+                                <Title level="2" weight="bold" style={{fontSize: '22px', paddingTop: '16px', paddingBottom: '16px'}}>
                                     Описание
                                 </Title>
-                                <Text weight="regular">{eventInfo.description}</Text>
+                                <Text weight="regular" style={{paddingBottom: '20px'}}>{eventInfo.description}</Text>
                             </Div>
                         </Div>
                     ) : (

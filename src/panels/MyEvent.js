@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-    ContentCard, Epic,
+    CardGrid,
+    ContentCard,
+    Div,
+    Epic,
     Group,
     Panel,
     PanelHeader,
@@ -14,7 +17,7 @@ import {
 
 import './styles/Persik.css';
 import bridge from "@vkontakte/vk-bridge";
-import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon28ShareOutline} from "@vkontakte/icons";
+import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon28ShareOutline, Icon24ShareOutline} from "@vkontakte/icons";
 
 
 const MyEvent = ({id, go, activePanel}) => {
@@ -45,40 +48,46 @@ const MyEvent = ({id, go, activePanel}) => {
             <View id={id} activePanel={id}>
                 <Panel id={id}>
                     <PanelHeader before={<PanelHeaderBack onClick={go} data-to="event"/>}
-                    >Мои мероприятия</PanelHeader>
-                    <Group>
-                        <ContentCard
-                            onClick={() => {
-                            }}
-                            src="https://sun9-60.userapi.com/impg/ccmgX-gJ-m0fPJXlHO0d86cHSRibUIokc-18UQ/N2zUXK0pTlA.jpg?size=2560x1920&quality=95&sign=77d1b76e641767ae09b42069901e041c&type=album"
-                            header="Международная образовательная площадка “Территория Коммуникации”"
-                            caption={
-                                <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                    <div>
-                                        <p>Дата: 2023-10-22 16:00</p>
+                    >Мой выбор</PanelHeader>
+                    <Group style={{marginBottom: '30px', paddingBottom: '30px'}}>
+                        <CardGrid size="2" style={{ justifyContent: 'center', width: '95vw'}}>
+                            <Div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'center' }}>
+                                <ContentCard 
+                                    imageStyle={{ objectFit: 'cover', height: '350' }}
+                                    maxHeight={350}
+                                    onClick={() => {
+                                    }}
+                                    src="https://sun9-60.userapi.com/impg/ccmgX-gJ-m0fPJXlHO0d86cHSRibUIokc-18UQ/N2zUXK0pTlA.jpg?size=2560x1920&quality=95&sign=77d1b76e641767ae09b42069901e041c&type=album"
+                                    header="Международная образовательная площадка “Территория Коммуникации”"
+                                    caption={
+                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                        <div >
+                                            <text>{'Дата: 2023-10-22 16:00'}</text>
+                                        </div>
+                                        <Div style={{paddingTop: '5px'}} onClick={handleGetFriendsClick}>
+                                            <Icon24ShareOutline/>
+                                        </Div>
                                     </div>
-                                    <div style={{paddingTop: '5px'}} onClick={handleGetFriendsClick}>
-                                        <Icon28ShareOutline/>
-                                    </div>
-                                </div>
-                            }
-                            maxHeight={150}
-                            width="100%" // Сделать карточку на всю ширину экрана
-                        />
+                                    }
+                                />
+                            </Div>
+                        </CardGrid>
                     </Group>
-                    <Tabbar>
+                    <Tabbar style={{ position: 'fixed', bottom: 0, width: '100%' }}>
                         <TabbarItem
                             onClick={go}
                             data-to="home"
                             selected={id === 'home'}
-                            text="Все Мероприятия"
-                        />
+                            text="Мероприятия">
+                            <Icon28CalendarOutline />
+                        </TabbarItem>
                         <TabbarItem
                             onClick={go}
                             data-to="myevent"
                             selected={id === 'myevent'}
-                            text="Мои мероприятия"
-                        />
+                            text="Мой выбор">
+                            <Icon28FavoriteOutline />
+                        </TabbarItem>
                     </Tabbar>
                 </Panel>
             </View>

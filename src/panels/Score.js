@@ -31,6 +31,7 @@ import bridge from "@vkontakte/vk-bridge";
 const Score = ({ id, go }) => {
   const [snackbar, setSnackbar] = useState(null);
   const [buttonIcons, setButtonIcons] = useState({}); // Состояния кнопок
+  const [isSnackbarShown, setIsSnackbarShown] = useState(false);
 
   const handleGetFriendsClick = async () => {
     try {
@@ -44,6 +45,7 @@ const Score = ({ id, go }) => {
       });
       console.log(tokenData);
       setFriends(friendsData.items);
+      setIsSnackbarShown(true);
     } catch (error) {
       console.error(error);
     }
@@ -68,6 +70,10 @@ const Score = ({ id, go }) => {
   );
 
   const handleButtonClick = (productId) => {
+    if (isSnackbarShown) {
+      return;
+    }
+
     setSnackbar(
       <Snackbar
         onClose={() => setSnackbar(null)}
@@ -81,6 +87,8 @@ const Score = ({ id, go }) => {
       ...prevIcons,
       [productId]: <Icon28CheckCircleOutline fill="#B8C1CC" style={{ width: '38px', height: '38px' }} />,
     }));
+
+    setIsSnackbarShown(true);
   };
 
   return (
@@ -104,7 +112,11 @@ const Score = ({ id, go }) => {
                 <Text weight="2" style={{ fontSize: '38px', paddingTop: '7px' }}>0</Text>
                 <Icon20DonateOutline fill="var(--vkui--color_icon_positive)" style={{ width: '38px', height: '38px', marginLeft: '8px' }} />
               </Div>
-              <CellButton centered before={<Icon28ShareOutline fill="#007fff" style={{ marginRight: '8px' }}/>} onClick={handleGetFriendsClick}>
+              <CellButton 
+              centered 
+              before={<Icon28ShareOutline fill="#007fff" style={{ marginRight: '8px' }}/>} 
+              onClick={handleGetFriendsClick} 
+              style={{ width: '200px', margin: '0 auto', borderRadius: '9px' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Text style={{ color: '#007fff', fontSize: '20px' }}>Поделиться</Text>
               </div>
