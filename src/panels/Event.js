@@ -45,7 +45,7 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                                 <Title level="1" weight="bold" style={{fontSize: '22px'}}>
                                     {eventInfo.name}
                                 </Title>
-                                <div style={{display: 'flex', fontSize: '20px', paddingTop: '10px'}}>
+                                <div style={{display: 'flex', fontSize: '20px'}}>
                                     <Icon20DonateOutline fill="var(--vkui--color_icon_positive)"
                                                          style={{marginRight: '8px'}}/>
                                     <Text weight="2">{eventInfo.points} баллов</Text>
@@ -65,9 +65,11 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
 
                 </Group>
                 <FixedLayout filled vertical="bottom">
-                    <Button stretched size="l" onClick={go} data-to="record">
-                        Выбрать
-                    </Button>
+                    <Div>
+                        <Button stretched size="l" onClick={go} data-to="record">
+                            Выбрать
+                        </Button>
+                    </Div>
                 </FixedLayout>
             </Panel>
         </View>

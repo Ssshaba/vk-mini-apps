@@ -125,7 +125,7 @@ const Score = ({ id, go }) => {
           </Div>
           {snackbar}
         </Div>
-        <Title level="1" weight="bold" style={{ fontSize: '24px', textAlign: 'left', paddingLeft: '30px'}}>Награды</Title>
+        <Title level="1" weight="bold" style={{ fontSize: '24px', textAlign: 'left', paddingLeft: '30px', marginBottom: '10px'}}>Награды</Title>
         <Group>
           {renderProductCell('Термокружка', '70 баллов.', product1, 'product1')}
           {renderProductCell('Powerbank', '100 баллов.', product2, 'product2')}

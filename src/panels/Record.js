@@ -15,135 +15,148 @@ import {
     SplitLayout, PanelHeaderBack
 } from '@vkontakte/vkui';
 
-import { Icon28CheckCircleOutline } from '@vkontakte/icons';
+import { Icon28CheckCircleOutline, Icon28CancelCircleFillRed } from '@vkontakte/icons';
 import bridge from "@vkontakte/vk-bridge";
 
 
 const Record = ({ id, go }) => {
-    const [snackbar, setSnackbar] = useState(null); // Состояние уведомления
+    const [snackbar, setSnackbar] = useState(null);
     const [name, setFullName] = useState('');
     const [group, setGroup] = useState('');
     const [phone, setPhoneNumber] = useState('');
-    const [faculty, setFaculty] = useState('');
+    const [faculty, setFaculty] = useState(null);
     const [formValid, setFormValid] = useState(false);
-
-    const [user, setUser] = useState(null); // Состояние информации о пользователе
-
+    const [buttonClicked, setButtonClicked] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState(null);
+  
+    const [user, setUser] = useState(null);
+  
     const [nameError, setNameError] = useState('');
     const [groupError, setGroupError] = useState('');
     const [phoneError, setPhoneError] = useState('');
     const [facultyError, setFacultyError] = useState('');
-
-    // Функция для получения информации о пользователе
+  
     const fetchData = async () => {
-        try {
-            const user = await bridge.send('VKWebAppGetUserInfo');
-            console.log('Информация о пользователе:', user);
-            setUser(user);
-        } catch (error) {
-            console.error('Ошибка при получении информации о пользователе:', error);
-        }
+      try {
+        const user = await bridge.send('VKWebAppGetUserInfo');
+        console.log('Информация о пользователе:', user);
+        setUser(user);
+      } catch (error) {
+        console.error('Ошибка при получении информации о пользователе:', error);
+      }
     };
-
-    // Вызываем fetchData() при монтировании компонента
+  
     useEffect(() => {
-        fetchData();
+      fetchData();
     }, []);
-
+  
     useEffect(() => {
         if (snackbar && id === 'record') {
-            const timeoutId = setTimeout(() => {
-                go({ currentTarget: { dataset: { to: 'myevent' } } });
-            }, 2000);
+            if (submitStatus === 'success') {
+                const timeoutId = setTimeout(() => {
+                    go({ currentTarget: { dataset: { to: 'myevent' } } });
+                }, 2000);
             return () => clearTimeout(timeoutId);
-        }
-    }, [snackbar, id, go]);
-
-    useEffect(() => {
-        const isNameValid = name.trim() !== '';
-        const isGroupValid = group.trim() !== '';
-        const isPhoneValid = phone.trim() !== '';
-        const isFacultyValid = faculty.trim() !== '';
-
-        setFormValid(isNameValid && isGroupValid && isPhoneValid && isFacultyValid);
-
-        // Обновляем сообщения об ошибках
-        setNameError(isNameValid ? '' : 'Заполните это поле');
-        setGroupError(isGroupValid ? '' : 'Заполните это поле');
-        setPhoneError(isPhoneValid ? '' : 'Заполните это поле');
-        setFacultyError(isFacultyValid ? '' : 'Заполните это поле');
-    }, [name, group, phone, faculty]);
-
-
-    const handleSend = async (name, group, phone, faculty) => {
-        // Проверяем, что все поля заполнены перед отправкой
-        if (!formValid) {
-            console.error('Заполните все обязательные поля');
-            return;
-        }
-
-        try {
-            // Собираем данные для отправки
-            const dataToSend = {
-                userId: user.id,
-                photo100: user.photo_100,
-                name,
-                group,
-                phone,
-                faculty,
-            };
-
-            // Выводим данные в консоль перед отправкой
-            console.log('Данные для отправки на сервер:', dataToSend);
-
-            // Отправляем данные на сервер
-            const response = await fetch('https://persikivk.ru/api/user/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(dataToSend),
-            });
-
-            if (response.ok) {
-                // Обработка успешного ответа от сервера
-                // Выводим информацию о данных и их формате в консоли
-                console.log('Данные успешно отправлены на сервер. Ответ сервера:', await response.json());
-
-                // Например, закрытие модального окна
-                // setModal(null);
-            } else {
-                // Обработка ошибки
-                console.error('Ошибка при отправке данных на сервер');
+            setSubmitStatus(null);
             }
-
-        // После успешной отправки показываем уведомление
+        }
+      }, [snackbar, id, go, submitStatus]);
+  
+    useEffect(() => {
+        const isNameValid = name ? name.trim() !== '' : false;
+        const isGroupValid = group ? group.trim() !== '' : false;
+        const isPhoneValid = phone ? phone.trim() !== '' : false;
+        const isFacultyValid = faculty ? faculty.trim() !== '' : false;
+      
+        setFormValid(isNameValid && isGroupValid && isPhoneValid && isFacultyValid);
+      
+        // Обновляем сообщения об ошибках
+        if (buttonClicked) {
+          setNameError(isNameValid ? '' : 'Заполните это поле');
+          setGroupError(isGroupValid ? '' : 'Заполните это поле');
+          setPhoneError(isPhoneValid ? '' : 'Заполните это поле');
+          setFacultyError(isFacultyValid ? '' : 'Заполните это поле');
+        }
+      }, [name, group, phone, faculty, buttonClicked]);
+  
+    const handleSend = async (name, group, phone, faculty) => {
+      // Проверяем, что все поля заполнены перед отправкой
+      if (!formValid) {
+        console.error('Заполните все обязательные поля');
+        setButtonClicked(true);
         setSnackbar(
             <Snackbar
                 onClose={() => {
-                    setSnackbar(null);                    
+                    setSnackbar(null);
                 }}
-                before={<Icon28CheckCircleOutline fill="var(--vkui--color_icon_positive)" />}
+                before={<Icon28CancelCircleFillRed />}
             >
-                Данные успешно отправлены!
+            Пожалуйста, заполните все поля!
             </Snackbar>
         );
-
-        } catch (error) {
-            console.error('Ошибка при отправке данных на сервер:'); // , error
-            console.error('Ошибка при отправке данных на сервер:', error); // для проверки заполненности полей
-
-            console.error('Статус ошибки:', error.status);
-            console.error('Текст ошибки:', error.statusText);
+        return;
+    }
+  
+      try {
+        // Собираем данные для отправки
+        const dataToSend = {
+          userId: user.id,
+          photo100: user.photo_100,
+          name,
+          group,
+          phone,
+          faculty,
+        };
+  
+        // Выводим данные в консоль перед отправкой
+        console.log('Данные для отправки на сервер:', dataToSend);
+  
+        // Отправляем данные на сервер
+        const response = await fetch('https://persikivk.ru/api/user/create', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dataToSend),
+        });
+  
+        if (response.ok) {
+          // Обработка успешного ответа от сервера
+          // Выводим информацию о данных и их формате в консоли
+            console.log('Данные успешно отправлены на сервер. Ответ сервера:', await response.json());
+            setSnackbar(
+                <Snackbar
+                  onClose={() => {
+                    setSnackbar(null);
+                    // Закрываем окно только после успешной отправки
+                    go({ currentTarget: { dataset: { to: 'myevent' } } });
+                  }}
+                  before={<Icon28CheckCircleOutline fill="var(--vkui--color_icon_positive)" />}
+                >
+                  Данные успешно отправлены!
+                </Snackbar>
+              );
+  
+          // Например, закрытие модального окна
+          // setModal(null);
+        } else {
+          // Обработка ошибки
+          console.error('Ошибка при отправке данных на сервер');
         }
+      } catch (error) {
+        console.error('Ошибка при отправке данных на сервер:', error);
+  
+        console.error('Статус ошибки:', error.status);
+        console.error('Текст ошибки:', error.statusText);
+      }
     };
 
     return (
         <View id={id} activePanel={id}>
             <Panel id={id}>
                 <PanelHeader  before={<PanelHeaderBack onClick={go} data-to="event"/>}>Регистрация</PanelHeader>
-                    <FormLayout>
-                        <FormItem top="ФИО" htmlFor="name" bottom={nameError}>
+                    <FormLayout style={{marginBottom: '30px'}}>
+                    <FormItem top="ФИО" htmlFor="name" bottom={<span style={{ color: 'red' }}>{nameError}</span>}>
                             <Input
                                 id="name"
                                 type="text"
@@ -156,17 +169,17 @@ const Record = ({ id, go }) => {
                             />
                         </FormItem>
 
-                        <FormItem top="Группа" htmlFor="group" bottom={groupError}>
+                        <FormItem top="Группа" htmlFor="group" bottom={<span style={{ color: 'red' }}>{groupError}</span>}>
                             <Input
                                 id="group"
-                                type="text" // Замените 'group' на 'text'
+                                type="text"
                                 placeholder="ВПР11"
                                 value={group}
                                 onChange={(e) => setGroup(e.target.value)}
                             />
                         </FormItem>
 
-                        <FormItem top="Факультет" bottom={facultyError}>
+                        <FormItem top="Факультет" bottom={<span style={{ color: 'red' }}>{facultyError}</span>}>
                             <Select
                                 placeholder="Выберите факультет"
                                 options={[
@@ -181,22 +194,21 @@ const Record = ({ id, go }) => {
 
                         </FormItem>
 
-                        <FormItem top="Телефон" htmlFor="phone" bottom={phoneError}>
+                        <FormItem top="Телефон" htmlFor="phone" bottom={<span style={{ color: 'red' }}>{phoneError}</span>}>
                             <Input id="phone"
                                    type="tel"
                                    placeholder="+79001001122"
                                    value={phone}
                                    onChange={(e) => setPhoneNumber(e.target.value)} />
                         </FormItem>
-
                     </FormLayout>
-
-
-                <SplitLayout style={{paddingLeft: '15px',  paddingRight: '15px' }}>
+                <SplitLayout>
                     <FixedLayout filled vertical="bottom" >
-                        <Button size="l" stretched onClick={() => handleSend(name, group, phone, faculty)} style={{ background: '#4CD964'}}>
-                            Отправить
-                        </Button>
+                        <Div>
+                            <Button centered size="l" stretched onClick={() => handleSend(name, group, phone, faculty)} style={{ background: '#4CD964'}}>
+                                Отправить
+                            </Button>
+                        </Div>
                     </FixedLayout>
                 </SplitLayout>
                 {snackbar}

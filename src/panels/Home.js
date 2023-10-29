@@ -58,7 +58,7 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
                 <Group style={{marginBottom: '30px', paddingBottom: '30px'}}>
                     <CardGrid size="2" style={{ justifyContent: 'center', width: '95vw'}}>
                         {events.map((event) => (
-                            <Div key={event.id} style={{ marginBottom: '30px', display: 'flex', justifyContent: 'center' }}>
+                            <Div key={event.id} style={{  display: 'flex', justifyContent: 'center' }}>
                                 <ContentCard style={{minWidth: '90vw'}}
                                     imageStyle={{ objectFit: 'cover', height: '350' }}
                                     maxHeight={350}

@@ -17,7 +17,7 @@ import {
 
 import './styles/Persik.css';
 import bridge from "@vkontakte/vk-bridge";
-import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon28ShareOutline, Icon24ShareOutline} from "@vkontakte/icons";
+import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon28DonateOutline, Icon24ShareOutline} from "@vkontakte/icons";
 
 
 const MyEvent = ({id, go, activePanel}) => {
@@ -47,8 +47,25 @@ const MyEvent = ({id, go, activePanel}) => {
         <Epic activeStory={id}>
             <View id={id} activePanel={id}>
                 <Panel id={id}>
-                    <PanelHeader before={<PanelHeaderBack onClick={go} data-to="event"/>}
-                    >Мой выбор</PanelHeader>
+                    <PanelHeader style={{ fontSize: '21px'}} before={
+                    <div onClick={go} data-to="event"
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: 'auto', // Автоматический размер под контент
+                            height: '30px',
+                            border: '2px solid #4CD964',
+                            //borderImage: 'linear-gradient(to right, #f6b73c, #4d9f0c) 30',
+                            borderRadius: '9px',
+                            padding: '0px 15px', // Отступы внутри кнопки
+                            marginLeft: '20px'
+                        }}>
+                        <Icon28DonateOutline style={{color: '#4CD964', width: '20px', height: '20px' }}/>
+                        <text weight="2" style={{ color: 'black', fontSize: '17px', paddingBottom: '3px', paddingLeft: '5px' }}>0</text>
+                    </div>
+                }>Мой выбор
+                </PanelHeader>
                     <Group style={{marginBottom: '30px', paddingBottom: '30px'}}>
                         <CardGrid size="2" style={{ justifyContent: 'center', width: '95vw'}}>
                             <Div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'center' }}>
