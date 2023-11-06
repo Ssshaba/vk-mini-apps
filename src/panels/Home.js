@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {View, Panel, PanelHeader, Group, CardGrid, ContentCard, Div, Epic, Tabbar, TabbarItem} from '@vkontakte/vkui';
+import {View, Panel, PanelHeader, Group, CardGrid, ContentCard, Div, Epic, Tabbar, TabbarItem, Text} from '@vkontakte/vkui';
 import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon28DonateOutline, Icon24ShareOutline} from "@vkontakte/icons";
 import bridge from "@vkontakte/vk-bridge";
 
@@ -51,7 +51,7 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
                             marginLeft: '20px'
                         }}>
                         <Icon28DonateOutline style={{color: '#4CD964', width: '20px', height: '20px' }}/>
-                        <text weight="2" style={{ color: 'black', fontSize: '17px', paddingBottom: '3px', paddingLeft: '5px' }}>0</text>
+                        <Text weight="2" style={{ color: 'black', fontSize: '17px', paddingBottom: '3px', paddingLeft: '5px' }}>0</Text>
                     </div>
                 }>Мероприятия
                 </PanelHeader>
@@ -59,8 +59,8 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
                     <CardGrid size="2" style={{ justifyContent: 'center', width: '95vw'}}>
                         {events.map((event) => (
                             <Div key={event.id} style={{  display: 'flex', justifyContent: 'center' }}>
-                                <ContentCard style={{minWidth: '90vw'}}
-                                    imageStyle={{ objectFit: 'cover', height: '350' }}
+                                <ContentCard
+                                    style={{minWidth: '90vw', objectFit: 'cover', height: '350' }}
                                     maxHeight={350}
                                     key={event.id}
                                     onClick={() => handleEventClick(event.id)}
@@ -69,7 +69,7 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
                                     caption={
                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                         <div >
-                                            <text>{`Дата:  ${event.date}`}</text>
+                                            <Text>{`Дата:  ${event.date}`}</Text>
                                         </div>
                                         <Div style={{paddingTop: '5px'}} onClick={e => {
                                             e.stopPropagation(); // Предотвращение срабатывания onClick родительской карточки

@@ -12,7 +12,8 @@ import {
     PanelHeaderBack,
     Tabbar,
     TabbarItem,
-    View
+    View,
+    Text
 } from '@vkontakte/vkui';
 
 import './styles/Persik.css';
@@ -62,7 +63,7 @@ const MyEvent = ({id, go, activePanel}) => {
                             marginLeft: '20px'
                         }}>
                         <Icon28DonateOutline style={{color: '#4CD964', width: '20px', height: '20px' }}/>
-                        <text weight="2" style={{ color: 'black', fontSize: '17px', paddingBottom: '3px', paddingLeft: '5px' }}>0</text>
+                        <Text weight="2" style={{ color: 'black', fontSize: '17px', paddingBottom: '3px', paddingLeft: '5px' }}>0</Text>
                     </div>
                 }>Мой выбор
                 </PanelHeader>
@@ -70,7 +71,7 @@ const MyEvent = ({id, go, activePanel}) => {
                         <CardGrid size="2" style={{ justifyContent: 'center', width: '95vw'}}>
                             <Div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'center' }}>
                                 <ContentCard 
-                                    imageStyle={{ objectFit: 'cover', height: '350' }}
+                                    style={{ objectFit: 'cover', height: '350' }}
                                     maxHeight={350}
                                     onClick={() => {
                                     }}
@@ -79,7 +80,7 @@ const MyEvent = ({id, go, activePanel}) => {
                                     caption={
                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                         <div >
-                                            <text>{'Дата: 2023-10-22 16:00'}</text>
+                                            <Text>{'Дата: 2023-10-22 16:00'}</Text>
                                         </div>
                                         <Div style={{paddingTop: '5px'}} onClick={handleGetFriendsClick}>
                                             <Icon24ShareOutline/>

@@ -29,7 +29,7 @@ const App = () => {
 			const user = await bridge.send('VKWebAppGetUserInfo');
 			//console.log('Информация о пользователе:', user);
 			setUser(user);
-			setPopout(null);
+			//setPopout(null);
 		}
 		fetchData();
 
