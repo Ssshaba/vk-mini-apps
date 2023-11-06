@@ -100,7 +100,7 @@ const Record = ({ id, go }) => {
       try {
         // Собираем данные для отправки
         const dataToSend = {
-          userId: user.id,
+          vkId: user.id,
           photo100: user.photo_100,
           name,
           group,
