@@ -56,7 +56,6 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
                 }>Мероприятия
                 </PanelHeader>
                 <Group style={{marginBottom: '30px', paddingBottom: '30px'}}>
-                    <CardGrid size="2" style={{ justifyContent: 'center', width: '95vw'}}>
                         {events.map((event) => (
                             <Div key={event.id} style={{  display: 'flex', justifyContent: 'center' }}>
                                 <ContentCard
@@ -82,7 +81,6 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
                                 />
                             </Div>
                         ))}
-                    </CardGrid>
                 </Group>
                 <Tabbar style={{ position: 'fixed', bottom: 0, width: '100%' }}>
                     <TabbarItem

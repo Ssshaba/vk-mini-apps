@@ -16,6 +16,7 @@ import Score from "./panels/Score";
 import Record from "./panels/Record";
 import bridge from "@vkontakte/vk-bridge";
 import {Icon28FavoriteOutline, Icon28HomeOutline} from "@vkontakte/icons";
+import InfoEvent from "./panels/InfoEvent";
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
@@ -89,6 +90,11 @@ const App = () => {
 		setActivePanel('event'); // Переключение на панель Event
 	};
 
+	const handleMyEventClick = (eventId) => {
+		setSelectedEventId(eventId.toString());// Установка ID выбранного мероприятия
+		setActivePanel('infoevent'); // Переключение на панель Event
+	};
+
 		const go = e => {
 		setActivePanel(e.currentTarget.dataset.to);
 	};
@@ -130,9 +136,16 @@ const App = () => {
 									  go={go}
 									  handleEventClick={handleEventClick}
 									 />
-								<MyEvent id='myevent' go={go} />
+								<MyEvent id='myevent' go={go}
+										 handleMyEventClick={handleMyEventClick}/>
 								<Score id="score" go={go} />
 								<Event id='event'
+									   activePanel={activePanel}
+									   setActivePanel={setActivePanel}
+									   selectedEventId={selectedEventId}
+									   go={go}
+								/>
+								<InfoEvent id='infoevent'
 									   activePanel={activePanel}
 									   setActivePanel={setActivePanel}
 									   selectedEventId={selectedEventId}
