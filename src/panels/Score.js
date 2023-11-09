@@ -56,6 +56,32 @@ const Score = ({ id, go }) => {
     fetchUserInfo();
   }, []); // Пустой массив зависимостей гарантирует выполнение эффекта только при монтировании
 
+
+  const handleGetStoryClick = async () => {
+    try {
+      const storyData = await bridge.send('VKWebAppShowStoryBox', {
+        background_type: 'image',
+        url: 'https://sun9-65.userapi.com/c850136/v850136098/1b77eb/0YK6suXkY24.jpg',
+        attachment: {
+          text: 'book',
+          type: 'photo',
+          owner_id: 743784474,
+          id: 12345678
+        }
+      });
+
+      if (storyData.code_data) {
+        // Редактор историй открыт
+        console.log(storyData);
+      } else {
+        console.log('История не была опубликована');
+      }
+    } catch (error) {
+      // Ошибка
+      console.error(error);
+    }
+  };
+
   const handleGetFriendsClick = async () => {
     try {
       // const tokenData = await bridge.send('VKWebAppGetAuthToken', {
@@ -169,7 +195,7 @@ const Score = ({ id, go }) => {
                   <Icon28DonateOutline style={{ color: 'white', width: '20px', height: '20px' }} />
                   <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>
                 </div>
-                <IconButton onClick={handleGetFriendsClick}>
+                <IconButton onClick={handleGetStoryClick}>
                   <Icon28ShareOutline fill="#007fff"/>
                 </IconButton>
               </Div>
