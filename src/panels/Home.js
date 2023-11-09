@@ -46,11 +46,11 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
                             height: '30px',
                             background: 'linear-gradient(to right, #4DDA65, #298FE1)',
                             borderRadius: '9px',
-                            boxShadow: '0px 4px 6px rgba(0, 0.3, 0, 0.3)', // Значения тени (горизонтальное смещение, вертикальное смещение, радиус размытия, цвет)
-                            padding: '0px 15px',
+                            boxShadow: '0px 4px 6px rgba(0, 0.3, 0, 0.3)',
+                            padding: '0px 20px',
                             marginLeft: '20px'
                         }}>
-                        <Icon20DonateOutline style={{color: 'white'}}/>
+                        <Icon20DonateOutline style={{ color: 'white', width: '20px', height: '20px' }} />
                         <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>
                     </div>
                 }>Мероприятия

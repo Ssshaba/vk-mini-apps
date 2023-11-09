@@ -149,7 +149,7 @@ const Score = ({ id, go }) => {
             <Div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               {userPhoto && <Avatar 
                 src={userPhoto} 
-                size={120}  
+                size={100}  
                 style={{ 
                   border: '4px solid #3CB6A2', 
                 }} 
@@ -167,7 +167,7 @@ const Score = ({ id, go }) => {
                     marginRight: '10px',
                   }}>
                   <Icon28DonateOutline style={{ color: 'white', width: '20px', height: '20px' }} />
-                  <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingBottom: '3px', paddingLeft: '5px' }}>0</Text>
+                  <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>
                 </div>
                 <IconButton onClick={handleGetFriendsClick}>
                   <Icon28ShareOutline fill="#007fff"/>
