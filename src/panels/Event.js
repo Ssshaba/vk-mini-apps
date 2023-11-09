@@ -34,7 +34,7 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                     мероприятии</PanelHeader>
                 <Group>
                     {eventInfo ? (
-                        <Div>
+                        <Div style={{marginBottom: '20px'}}>
                             <img
                                 src={eventInfo.image}
                                 alt="Фотография мероприятия"

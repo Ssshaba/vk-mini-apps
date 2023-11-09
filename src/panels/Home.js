@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {View, Panel, PanelHeader, Group, CardGrid, ContentCard, Div, Epic, Tabbar, TabbarItem, Text} from '@vkontakte/vkui';
-import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon28DonateOutline, Icon24ShareOutline} from "@vkontakte/icons";
+import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon28DonateOutline, Icon20ShareOutline} from "@vkontakte/icons";
 import bridge from "@vkontakte/vk-bridge";
 
 const Home = ({id, go, fetchedUser,  handleEventClick}) => {
@@ -36,22 +36,22 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
         <Epic activeStory={id}>
         <View id={id} activePanel={id}>
             <Panel id={id}>
-                <PanelHeader style={{ fontSize: '21px'}} before={
+                <PanelHeader style={{textAlign: 'center'}} before={
                     <div onClick={go} data-to="score"
                         style={{
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            width: 'auto', // Автоматический размер под контент
+                            width: 'auto',
                             height: '30px',
-                            border: '2px solid #4CD964',
-                            //borderImage: 'linear-gradient(to right, #f6b73c, #4d9f0c) 30',
+                            background: 'linear-gradient(to right, #4DDA65, #298FE1)',
                             borderRadius: '9px',
-                            padding: '0px 15px', // Отступы внутри кнопки
+                            boxShadow: '0px 4px 6px rgba(0, 0.3, 0, 0.3)', // Значения тени (горизонтальное смещение, вертикальное смещение, радиус размытия, цвет)
+                            padding: '0px 15px',
                             marginLeft: '20px'
                         }}>
-                        <Icon28DonateOutline style={{color: '#4CD964', width: '20px', height: '20px' }}/>
-                        <Text weight="2" style={{ color: 'black', fontSize: '17px', paddingBottom: '3px', paddingLeft: '5px' }}>0</Text>
+                        <Icon28DonateOutline style={{color: 'white', width: '20px', height: '20px' }}/>
+                        <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingBottom: '3px', paddingLeft: '5px' }}>0</Text>
                     </div>
                 }>Мероприятия
                 </PanelHeader>
@@ -66,17 +66,14 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
                                     src={event.image}
                                     header={<div style={{ fontSize: '17px', fontWeight: 'bold' }}>{event.name}</div>}
                                     caption={
-                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                        <div >
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                          <div>
                                             <Text>{`Дата:  ${event.date}`}</Text>
+                                          </div>
+                                          <Div style={{ paddingTop: '5px' }} onClick={(e) => { e.stopPropagation(); handleGetFriendsClick(); }}>
+                                            <Icon20ShareOutline style={{marginTop: '12px'}}/>
+                                          </Div>
                                         </div>
-                                        <Div style={{paddingTop: '5px'}} onClick={e => {
-                                            e.stopPropagation(); // Предотвращение срабатывания onClick родительской карточки
-                                            handleGetFriendsClick(); // Вызов вашей функции
-                                            }}>
-                                            <Icon24ShareOutline/>
-                                        </Div>
-                                    </div>
                                     }
                                 />
                             </Div>

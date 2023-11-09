@@ -13,10 +13,12 @@ import {
     Tabbar,
     TabbarItem,
     View,
-    Text
+    Text,
+    Title
 } from '@vkontakte/vkui';
 
 import './styles/Persik.css';
+import sadPersik from '../img/sadPersik.png';
 import bridge from "@vkontakte/vk-bridge";
 import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon28DonateOutline, Icon24ShareOutline} from "@vkontakte/icons";
 
@@ -65,13 +67,36 @@ const MyEvent = ({ id, go, handleMyEventClick }) => {
         <Epic activeStory={id}>
             <View id={id} activePanel={id}>
                 <Panel id={id}>
-                    <PanelHeader>
-                        Мой выбор
-                    </PanelHeader>
+                    <PanelHeader style={{textAlign: 'center'}} before={
+                        <div onClick={go} data-to="score"
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: 'auto',
+                                height: '30px',
+                                background: 'linear-gradient(to right, #4DDA65, #298FE1)',
+                                borderRadius: '9px',
+                                boxShadow: '0px 4px 6px rgba(0, 0.3, 0, 0.3)',
+                                padding: '0px 15px',
+                                marginLeft: '20px'
+                            }}>
+                        <Icon28DonateOutline style={{color: 'white', width: '20px', height: '20px' }}/>
+                        <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingBottom: '3px', paddingLeft: '5px' }}>0</Text>
+                    </div>
+                }>Мой выбор
+                </PanelHeader>
                     <Group style={{marginBottom: '30px', paddingBottom: '30px'}}>
                         {userEvents.length === 0 ? (
-                            <Div>
-                                <Text weight="regular">Вы не записаны на мероприятия</Text>
+                            <Div style={{textAlign: 'center'}}>
+                                <img
+                                    src={sadPersik}
+                                    alt="Грустный персик"
+                                    style={{marginTop: '30px'}}
+                                />
+                                <Title level="2" weight="demibold">Мероприятия не найдены</Title>
+                                <Text weight="regular" style={{marginTop: '15px'}}>У вас пока нет выбранных мероприятий.</Text>
+                                <Text weight="regular">Переходите в Мероприятия и участвуйте!</Text>
                             </Div>
                         ) : (
                             userEvents.map(event => (

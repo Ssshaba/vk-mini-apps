@@ -1,28 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
   Panel,
   PanelHeader,
-  Button,
+  IconButton,
   Div,
   Text,
-  Title,
   Group,
-  SimpleCell,
-  Snackbar,
   CellButton,
+  Snackbar,
+  Image,
   Avatar,
-  PanelHeaderBack
+  PanelHeaderBack,
+  Header,
+  HorizontalCell,
+  HorizontalScroll
 } from '@vkontakte/vkui';
 import wrapperForScore from '../img/wrapperForScore.png';
 import product1 from '../img/product1.png';
 import product2 from '../img/product2.png';
 import product3 from '../img/product3.png';
+import product4 from '../img/product4.png';
+import product5 from '../img/product5.png';
+import achievement1 from '../img/achievement1.png';
+import achievement2 from '../img/achievement2.png';
+import achievement3 from '../img/achievement3.png';
+import achievement4 from '../img/achievement4.png';
+import achievement5 from '../img/achievement5.png';
+import achievement6 from '../img/achievement6.png';
+
 import {
   Icon28CheckCircleOutline,
   Icon28AddSquareOutline,
-  Icon20DonateOutline,
+  Icon28DonateOutline,
   Icon28ShareOutline,
   Icon12Repost
 } from '@vkontakte/icons';
@@ -30,8 +41,20 @@ import bridge from "@vkontakte/vk-bridge";
 
 const Score = ({ id, go }) => {
   const [snackbar, setSnackbar] = useState(null);
-  const [buttonIcons, setButtonIcons] = useState({}); // Состояния кнопок
-  const [isSnackbarShown, setIsSnackbarShown] = useState(false);
+  const [userPhoto, setUserPhoto] = useState(null);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const userData = await bridge.send('VKWebAppGetUserInfo');
+        setUserPhoto(userData.photo_100);
+      } catch (error) {
+        console.error('Ошибка при получении информации о пользователе:', error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []); // Пустой массив зависимостей гарантирует выполнение эффекта только при монтировании
 
   const handleGetFriendsClick = async () => {
     try {
@@ -51,28 +74,48 @@ const Score = ({ id, go }) => {
     }
   };
 
-
-
-  const renderProductCell = (title, price, imageSrc, productId) => (
-    <SimpleCell
-      before={<img src={imageSrc} alt={title} style={{ marginRight: '8px', width: '40px', height: '40px', objectFit: 'cover', paddingLeft: '20px', paddingRight: '20px' }} />}
-      after={
-        <Button mode="commerce" style={{ background: 'none', padding: 0, border: 'none' }} onClick={() => handleButtonClick(productId)}>
-          {buttonIcons[productId] || <Icon28AddSquareOutline style={{ width: '38px', height: '38px' }} />}
-        </Button>
-      }
-    >
-      <Div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '8px' }}>
-        <Text style={{ fontSize: '20px', marginBottom: '4px' }}>{title}</Text>
-        <Text style={{ fontSize: '18px', color: 'gray' }}>{price}</Text>
-      </Div>
-    </SimpleCell>
-  );
-
+  const achievementsItems = [
+    {
+      id: 1,
+      title: 'Почуствовал вкус',
+      icon_139: achievement1,
+    },
+    {
+      id: 2,
+      title: 'Отличник',
+      icon_139: achievement2,
+    },
+    {
+      id: 3,
+      title: 'Мамина гордость',
+      icon_139: achievement3,
+    },
+    {
+      id: 4,
+      title: 'Oh yeah, baby!',
+      icon_139: achievement4,
+    },
+    {
+      id: 5,
+      title: 'МегаКрутой',
+      icon_139: achievement5,
+    },
+    {
+      id: 6,
+      title: 'Сенсей',
+      icon_139: achievement6,
+    },
+  ];
+  
+  const AchievementsItems = () => {
+    return achievementsItems.map(({ id, title, icon_139 }) => (
+      <HorizontalCell key={id} size="m" header={title} style={{ whiteSpace: 'normal' }}>
+        <Image size={88} borderRadius="l" src={icon_139} />
+      </HorizontalCell>
+    ));
+  };  
+  
   const handleButtonClick = (productId) => {
-    if (isSnackbarShown) {
-      return;
-    }
 
     setSnackbar(
       <Snackbar
@@ -82,54 +125,153 @@ const Score = ({ id, go }) => {
         Награда ваша!
       </Snackbar>
     );
-    
-    setButtonIcons((prevIcons) => ({
-      ...prevIcons,
-      [productId]: <Icon28CheckCircleOutline fill="#B8C1CC" style={{ width: '38px', height: '38px' }} />,
-    }));
+  };
 
-    setIsSnackbarShown(true);
+  const handleCellButtonClick = (productId) => {
+    handleButtonClick(productId);
   };
 
   return (
     <View id={id} activePanel={id}>
       <Panel id={id}>
-        <PanelHeader before={<PanelHeaderBack onClick={go} data-to="home"/>}
+        <PanelHeader 
+          before={<PanelHeaderBack onClick={go} data-to="home"/>}
+          style={{textAlign: 'center'}}
         >Мои баллы</PanelHeader>
 
         <Div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-          <Div style={{ position: 'relative', width: '100%', marginBottom: '16px' }}>
+          <Div style={{ position: 'relative', width: '100%', marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <img
               src={wrapperForScore}
               alt="Рамка для баллов"
               style={{ width: '90%', maxWidth: '90%' }}
             />
-            <Div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '100%' }}>
-              <Div style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
-                <Text weight="1" style={{ color: 'gray', fontSize: '18px' }}>БАЛАНС</Text>
+            <Div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              {userPhoto && <Avatar 
+                src={userPhoto} 
+                size={120}  
+                style={{ 
+                  border: '4px solid #3CB6A2', 
+                }} 
+              />}
+              <Div style={{marginLeft: '10px', display: 'flex', alignItems: 'center'}}>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: 'auto',
+                    height: '30px',
+                    background: 'linear-gradient(to right, #4DDA65, #298FE1)',
+                    borderRadius: '9px',
+                    padding: '0px 30px',
+                    marginRight: '10px',
+                  }}>
+                  <Icon28DonateOutline style={{ color: 'white', width: '20px', height: '20px' }} />
+                  <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingBottom: '3px', paddingLeft: '5px' }}>0</Text>
+                </div>
+                <IconButton onClick={handleGetFriendsClick}>
+                  <Icon28ShareOutline fill="#007fff"/>
+                </IconButton>
               </Div>
-              <Div style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
-                <Text weight="2" style={{ fontSize: '38px', paddingTop: '7px' }}>0</Text>
-                <Icon20DonateOutline fill="var(--vkui--color_icon_positive)" style={{ width: '38px', height: '38px', marginLeft: '8px' }} />
-              </Div>
-              <CellButton 
-              centered 
-              before={<Icon28ShareOutline fill="#007fff" style={{ marginRight: '8px' }}/>} 
-              onClick={handleGetFriendsClick} 
-              style={{ width: '200px', margin: '0 auto', borderRadius: '9px' }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Text style={{ color: '#007fff', fontSize: '20px' }}>Поделиться</Text>
-              </div>
-            </CellButton>
             </Div>
           </Div>
           {snackbar}
         </Div>
-        <Title level="1" weight="bold" style={{ fontSize: '24px', textAlign: 'left', paddingLeft: '30px', marginBottom: '10px'}}>Награды</Title>
-        <Group>
-          {renderProductCell('Термокружка', '70 баллов.', product1, 'product1')}
-          {renderProductCell('Powerbank', '100 баллов.', product2, 'product2')}
-          {renderProductCell('Графический планшет', '120 баллов.', product3, 'product3')}
+        <Group header={<Header>Достижения</Header>}>
+          <HorizontalScroll>
+            <div style={{ display: 'flex' }}>
+              <AchievementsItems />
+            </div>
+          </HorizontalScroll>
+        </Group>
+        <Group header={<Header>Награды</Header>}>
+        <Div>
+          <CellButton
+            style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px' }}
+            onClick={() => handleCellButtonClick(id)}
+            before={
+              <Avatar withBorder={false} size={40}>
+                <img src={product1} alt="Product 1" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </Avatar>
+            }
+            after={
+              <Div style={{ display: 'flex', alignItems: 'center' }}>
+                <Text style={{ marginRight: '8px', color: '#2787F5' }}>20</Text>
+                <Icon28DonateOutline style={{ color: '#4CD964'}} />
+              </Div>
+            }
+          >
+            Брелок "Полосатый кот"
+          </CellButton>
+          <CellButton
+            style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px'  }}
+            onClick={() => handleCellButtonClick(id)}
+            before={
+              <Avatar withBorder={false} size={40}>
+                <img src={product2} alt="Product 2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </Avatar>
+            }
+            after={
+              <Div style={{ display: 'flex', alignItems: 'center' }}>
+                <Text style={{ marginRight: '8px', color: '#2787F5'  }}>40</Text>
+                <Icon28DonateOutline style={{ color: '#4CD964'}} />
+              </Div>
+            }
+          >
+            Шариковая ручка
+          </CellButton>
+          <CellButton
+            style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px'  }}
+            onClick={() => handleCellButtonClick(id)}
+            before={
+              <Avatar withBorder={false} size={40}>
+                <img src={product3} alt="Product 3" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </Avatar>
+            }
+            after={
+              <Div style={{ display: 'flex', alignItems: 'center' }}>
+                <Text style={{ marginRight: '8px', color: '#2787F5'  }}>70</Text>
+                <Icon28DonateOutline style={{ color: '#4CD964'}} />
+              </Div>
+            }
+          >
+            Термокружка
+          </CellButton>
+          <CellButton
+            style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px'  }}
+            onClick={() => handleCellButtonClick(id)}
+            before={
+              <Avatar withBorder={false} size={40}>
+                <img src={product4} alt="Product 4" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </Avatar>
+            }
+            after={
+              <Div style={{ display: 'flex', alignItems: 'center' }}>
+                <Text style={{ marginRight: '8px', color: '#2787F5'  }}>100</Text>
+                <Icon28DonateOutline style={{ color: '#4CD964'}} />
+              </Div>
+            }
+          >
+            Powerbank
+          </CellButton>
+          <CellButton
+            style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px'  }}
+            onClick={() => handleCellButtonClick(id)}
+            before={
+              <Avatar withBorder={false} size={40}>
+                <img src={product5} alt="Product 5" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </Avatar>
+            }
+            after={
+              <Div style={{ display: 'flex', alignItems: 'center' }}>
+                <Text style={{ marginRight: '8px', color: '#2787F5' }}>140</Text>
+                <Icon28DonateOutline style={{ color: '#4CD964'}} />
+              </Div>
+            }
+          >
+            Графический планшет
+          </CellButton>
+          </Div>
         </Group>
       </Panel>
     </View>
