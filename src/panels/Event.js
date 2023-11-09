@@ -45,7 +45,7 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                                 <Title level="1" weight="bold" style={{fontSize: '22px'}}>
                                     {eventInfo.name}
                                 </Title>
-                                <div style={{display: 'flex', fontSize: '20px'}}>
+                                <div style={{display: 'flex'}}>
                                     <Icon20DonateOutline fill="var(--vkui--color_icon_positive)"
                                                          style={{marginRight: '8px'}}/>
                                     <Text weight="2">{eventInfo.points} баллов</Text>

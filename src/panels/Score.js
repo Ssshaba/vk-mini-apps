@@ -163,7 +163,7 @@ const Score = ({ id, go }) => {
                     height: '30px',
                     background: 'linear-gradient(to right, #4DDA65, #298FE1)',
                     borderRadius: '9px',
-                    padding: '0px 30px',
+                    padding: '0px 20px',
                     marginRight: '10px',
                   }}>
                   <Icon28DonateOutline style={{ color: 'white', width: '20px', height: '20px' }} />

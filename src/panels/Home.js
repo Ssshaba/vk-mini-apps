@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {View, Panel, PanelHeader, Group, CardGrid, ContentCard, Div, Epic, Tabbar, TabbarItem, Text} from '@vkontakte/vkui';
-import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon28DonateOutline, Icon20ShareOutline} from "@vkontakte/icons";
+import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon20DonateOutline, Icon20ShareOutline} from "@vkontakte/icons";
 import bridge from "@vkontakte/vk-bridge";
 
 const Home = ({id, go, fetchedUser,  handleEventClick}) => {
@@ -50,8 +50,8 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
                             padding: '0px 15px',
                             marginLeft: '20px'
                         }}>
-                        <Icon28DonateOutline style={{color: 'white', width: '20px', height: '20px' }}/>
-                        <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingBottom: '3px', paddingLeft: '5px' }}>0</Text>
+                        <Icon20DonateOutline style={{color: 'white'}}/>
+                        <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>
                     </div>
                 }>Мероприятия
                 </PanelHeader>
@@ -71,7 +71,7 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
                                             <Text>{`Дата:  ${event.date}`}</Text>
                                           </div>
                                           <Div style={{ paddingTop: '5px' }} onClick={(e) => { e.stopPropagation(); handleGetFriendsClick(); }}>
-                                            <Icon20ShareOutline style={{marginTop: '12px'}}/>
+                                            <Icon20ShareOutline style={{marginTop: '8px'}}/>
                                           </Div>
                                         </div>
                                     }
