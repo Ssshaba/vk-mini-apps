@@ -94,6 +94,13 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
                         text="Мой выбор">
                         <Icon28FavoriteOutline />
                     </TabbarItem>
+                    <TabbarItem
+                        onClick={go}
+                        data-to="profile"
+                        selected={id === 'profile'}
+                        text="Профиль">
+                        <Icon28CalendarOutline />
+                    </TabbarItem>
                 </Tabbar>
             </Panel>
         </View>

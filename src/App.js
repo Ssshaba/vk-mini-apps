@@ -14,6 +14,7 @@ import '@vkontakte/vkui/dist/vkui.css';
 import MyEvent from "./panels/MyEvent";
 import Score from "./panels/Score";
 import Record from "./panels/Record";
+import Profile from "./panels/Profile";
 import bridge from "@vkontakte/vk-bridge";
 import {Icon28FavoriteOutline, Icon28HomeOutline} from "@vkontakte/icons";
 import InfoEvent from "./panels/InfoEvent";
@@ -138,6 +139,7 @@ const App = () => {
 									 />
 								<MyEvent id='myevent' go={go}
 										 handleMyEventClick={handleMyEventClick}/>
+								<Profile id="profile" go={go} />
 								<Score id="score" go={go} />
 								<Event id='event'
 									   activePanel={activePanel}
