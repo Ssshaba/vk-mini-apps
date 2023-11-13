@@ -61,7 +61,7 @@ const Score = ({ id, go }) => {
     try {
       const storyData = await bridge.send('VKWebAppShowStoryBox', {
         background_type: 'image',
-        url: 'https://sun9-65.userapi.com/c850136/v850136098/1b77eb/0YK6suXkY24.jpg',
+        url: 'https://raw.githubusercontent.com/Jabovich/homework/de5b43ddaf11cf094de2386a8e51f333117d482b/storyBackgroundWithScores.png',
         attachment: {
           text: 'book',
           type: 'photo',
