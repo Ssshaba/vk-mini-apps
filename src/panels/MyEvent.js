@@ -18,9 +18,9 @@ import {
 } from '@vkontakte/vkui';
 
 import './styles/Persik.css';
-import sadPersik from '../img/sadPersik.png';
+import sadPersik from '../img/newSadPersik.png';
 import bridge from "@vkontakte/vk-bridge";
-import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon20DonateOutline, Icon24ShareOutline} from "@vkontakte/icons";
+import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon28UserCircleOutline, Icon20DonateOutline, Icon24ShareOutline} from "@vkontakte/icons";
 
 
 const MyEvent = ({ id, go, handleMyEventClick }) => {
@@ -102,7 +102,7 @@ const MyEvent = ({ id, go, handleMyEventClick }) => {
                             userEvents.map(event => (
                                 <Div key={event.Event.eventId}>
                                     <ContentCard
-                                        style={{minWidth: '90vw', objectFit: 'cover', height: '350' }}
+                                        style={{width: '100%', objectFit: 'cover', height: '350' }}
                                         maxHeight={350}
                                         onClick={() => handleMyEventClick(event.Event.id)}
                                         header={event.Event.name}
@@ -148,7 +148,7 @@ const MyEvent = ({ id, go, handleMyEventClick }) => {
                             data-to="profile"
                             selected={id === 'profile'}
                             text="Профиль">
-                            <Icon28CalendarOutline />
+                            <Icon28UserCircleOutline />
                         </TabbarItem>
                     </Tabbar>
                 </Panel>

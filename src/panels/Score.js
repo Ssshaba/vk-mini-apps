@@ -15,7 +15,8 @@ import {
   PanelHeaderBack,
   Header,
   HorizontalCell,
-  HorizontalScroll
+  HorizontalScroll,
+  Separator
 } from '@vkontakte/vkui';
 import wrapperForScore from '../img/wrapperForScore.png';
 import product1 from '../img/product1.png';
@@ -23,12 +24,12 @@ import product2 from '../img/product2.png';
 import product3 from '../img/product3.png';
 import product4 from '../img/product4.png';
 import product5 from '../img/product5.png';
-import achievement1 from '../img/achievement1.png';
-import achievement2 from '../img/achievement2.png';
-import achievement3 from '../img/achievement3.png';
-import achievement4 from '../img/achievement4.png';
-import achievement5 from '../img/achievement5.png';
-import achievement6 from '../img/achievement6.png';
+import achievement1 from '../img/newachievement1.png';
+import achievement2 from '../img/newachievement2.png';
+import achievement3 from '../img/newachievement3.png';
+import achievement4 from '../img/newachievement4.png';
+import achievement5 from '../img/newachievement5.png';
+import achievement6 from '../img/newachievement6.png';
 
 import {
   Icon28CheckCircleOutline,
@@ -177,7 +178,8 @@ const Score = ({ id, go }) => {
                 src={userPhoto} 
                 size={100}  
                 style={{ 
-                  border: '4px solid #3CB6A2', 
+                  border: '3px solid #3CB6A2',
+                  marginTop: '15px'
                 }} 
               />}
               <Div style={{marginLeft: '10px', display: 'flex', alignItems: 'center'}}>
@@ -203,6 +205,7 @@ const Score = ({ id, go }) => {
           </Div>
           {snackbar}
         </Div>
+        <Separator />
         <Group header={<Header>Достижения</Header>}>
           <HorizontalScroll>
             <div style={{ display: 'flex' }}>
@@ -216,86 +219,91 @@ const Score = ({ id, go }) => {
             style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px' }}
             onClick={() => handleCellButtonClick(id)}
             before={
-              <Avatar withBorder={false} size={40}>
-                <img src={product1} alt="Product 1" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </Avatar>
+              <img src={product1}
+                lt="Product 1"
+                  style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '10%' }}
+              />
             }
             after={
               <Div style={{ display: 'flex', alignItems: 'center' }}>
                 <Text style={{ marginRight: '8px', color: '#2787F5' }}>20</Text>
-                <Icon28DonateOutline style={{ color: '#4CD964'}} />
+                <Icon28DonateOutline style={{ color: '#4CD964' }} />
               </Div>
             }
           >
-            Брелок "Полосатый кот"
+            <Div>Брелок "Полосатый кот"</Div>
           </CellButton>
           <CellButton
-            style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px'  }}
+            style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px' }}
             onClick={() => handleCellButtonClick(id)}
             before={
-              <Avatar withBorder={false} size={40}>
-                <img src={product2} alt="Product 2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </Avatar>
+              <img src={product2}
+                lt="Product 2"
+                  style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '10%' }}
+              />
             }
             after={
               <Div style={{ display: 'flex', alignItems: 'center' }}>
-                <Text style={{ marginRight: '8px', color: '#2787F5'  }}>40</Text>
-                <Icon28DonateOutline style={{ color: '#4CD964'}} />
+                <Text style={{ marginRight: '8px', color: '#2787F5' }}>40</Text>
+                <Icon28DonateOutline style={{ color: '#4CD964' }} />
               </Div>
             }
           >
-            Шариковая ручка
+            <Div>Шариковая ручка</Div>
           </CellButton>
           <CellButton
-            style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px'  }}
+            style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px' }}
             onClick={() => handleCellButtonClick(id)}
             before={
-              <Avatar withBorder={false} size={40}>
-                <img src={product3} alt="Product 3" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </Avatar>
+              <img src={product3}
+                lt="Product 3"
+                  style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '10%' }}
+              />
             }
             after={
               <Div style={{ display: 'flex', alignItems: 'center' }}>
-                <Text style={{ marginRight: '8px', color: '#2787F5'  }}>70</Text>
-                <Icon28DonateOutline style={{ color: '#4CD964'}} />
+                <Text style={{ marginRight: '8px', color: '#2787F5' }}>70</Text>
+                <Icon28DonateOutline style={{ color: '#4CD964' }} />
               </Div>
             }
           >
-            Термокружка
+            <Div>Термокружка</Div>
           </CellButton>
           <CellButton
-            style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px'  }}
+            style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px' }}
             onClick={() => handleCellButtonClick(id)}
             before={
-              <Avatar withBorder={false} size={40}>
-                <img src={product4} alt="Product 4" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </Avatar>
+              <img src={product4}
+                lt="Product 4"
+                  style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '10%' }}
+              />
             }
             after={
               <Div style={{ display: 'flex', alignItems: 'center' }}>
-                <Text style={{ marginRight: '8px', color: '#2787F5'  }}>100</Text>
-                <Icon28DonateOutline style={{ color: '#4CD964'}} />
+                <Text style={{ marginRight: '8px', color: '#2787F5' }}>100</Text>
+                <Icon28DonateOutline style={{ color: '#4CD964' }} />
               </Div>
             }
           >
-            Powerbank
+            <Div>Powerbank</Div>
           </CellButton>
           <CellButton
-            style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px'  }}
+            style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px' }}
             onClick={() => handleCellButtonClick(id)}
             before={
-              <Avatar withBorder={false} size={40}>
-                <img src={product5} alt="Product 5" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </Avatar>
+              <img src={product5}
+                lt="Product 5"
+                  style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '10%' }}
+              />
             }
             after={
               <Div style={{ display: 'flex', alignItems: 'center' }}>
                 <Text style={{ marginRight: '8px', color: '#2787F5' }}>140</Text>
-                <Icon28DonateOutline style={{ color: '#4CD964'}} />
+                <Icon28DonateOutline style={{ color: '#4CD964' }} />
               </Div>
             }
           >
-            Графический планшет
+            <Div>Графический планшет</Div>
           </CellButton>
           </Div>
         </Group>

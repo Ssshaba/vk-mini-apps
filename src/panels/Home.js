@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {View, Panel, PanelHeader, Group, CardGrid, ContentCard, Div, Epic, Tabbar, TabbarItem, Text} from '@vkontakte/vkui';
-import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon20DonateOutline, Icon20ShareOutline} from "@vkontakte/icons";
+import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon20DonateOutline, Icon20ShareOutline, Icon28UserCircleOutline} from "@vkontakte/icons";
 import bridge from "@vkontakte/vk-bridge";
 
 const Home = ({id, go, fetchedUser,  handleEventClick}) => {
@@ -59,7 +59,7 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
                         {events.map((event) => (
                             <Div key={event.id} style={{  display: 'flex', justifyContent: 'center' }}>
                                 <ContentCard
-                                    style={{minWidth: '90vw', objectFit: 'cover', height: '350' }}
+                                    style={{width: '100%', objectFit: 'cover', height: '350' }}
                                     maxHeight={350}
                                     key={event.id}
                                     onClick={() => handleEventClick(event.id)}
@@ -99,7 +99,7 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
                         data-to="profile"
                         selected={id === 'profile'}
                         text="Профиль">
-                        <Icon28CalendarOutline />
+                        <Icon28UserCircleOutline />
                     </TabbarItem>
                 </Tabbar>
             </Panel>

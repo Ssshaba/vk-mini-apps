@@ -21,7 +21,7 @@ import {
     Select,
     FormLayout, Snackbar, ButtonGroup
 } from '@vkontakte/vkui';
-import {Icon20DonateOutline, Icon28CancelCircleFillRed, Icon28CheckCircleOutline} from "@vkontakte/icons";
+import {Icon16DonateOultine, Icon28CancelCircleFillRed, Icon28CheckCircleOutline} from "@vkontakte/icons";
 import bridge from "@vkontakte/vk-bridge";
 
 const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
@@ -278,22 +278,22 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                     мероприятии</PanelHeader>
                 <Group>
                     {eventInfo ? (
-                        <Div style={{marginBottom: '20px'}}>
+                        <div style={{marginBottom: '20px'}}>
                             <img
                                 src={eventInfo.image}
                                 alt="Фотография мероприятия"
                                 style={{width: '100%', maxWidth: '100%'}}
                             />
 
-                            <Div style={{padding: 20, textAlign: 'left'}}>
+                            <Div style={{padding: 20, textAlign: 'left', marginBottom: '45px'}}>
                                 <Title level="1" weight="bold" style={{fontSize: '22px'}}>
                                     {eventInfo.name}
                                 </Title>
-                                <div style={{display: 'flex'}}>
-                                    <Icon20DonateOutline fill="var(--vkui--color_icon_positive)"
-                                                         style={{marginRight: '8px'}}/>
-                                    <Text weight="2">{eventInfo.points} баллов</Text>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <Icon16DonateOultine fill="var(--vkui--color_icon_positive)" style={{ marginRight: '8px' }} />
+                                    <Text weight="2" style={{ marginBottom: 0 }}>{eventInfo.points} баллов</Text>
                                 </div>
+
                                 <Text weight="3">{eventInfo.location} · {eventInfo.date}</Text>
                                 <Title level="2" weight="bold"
                                        style={{fontSize: '22px', paddingTop: '16px', paddingBottom: '16px'}}>
@@ -302,7 +302,7 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                                 <Text weight="regular" style={{paddingBottom: '20px'}}>{eventInfo.description}</Text>
 
                             </Div>
-                        </Div>
+                        </div>
                     ) : (
                         <Div>
                             <p>Загрузка информации о мероприятии...</p>
