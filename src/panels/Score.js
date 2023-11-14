@@ -60,15 +60,46 @@ const Score = ({ id, go }) => {
 
   const handleGetStoryClick = async () => {
     try {
-      const storyData = await bridge.send('VKWebAppShowStoryBox', {
-        background_type: 'image',
-        url: 'https://raw.githubusercontent.com/Jabovich/homework/de5b43ddaf11cf094de2386a8e51f333117d482b/storyBackgroundWithScores.png',
-        attachment: {
-          text: 'book',
-          type: 'photo',
-          owner_id: 743784474,
-          id: 12345678
-        }
+      const storyData = await bridge.send('VKWebAppShowStoryBox',{
+        "background_type": "image",
+        "url": "https://raw.githubusercontent.com/Ssshaba/Foto-for-Story-VK/main/STORY2.png",
+        "stickers": [
+          {
+            "sticker_type": "renderable",
+            "sticker": {
+              "can_delete": 0,
+              "content_type": "image",
+              "url": "https://raw.githubusercontent.com/Ssshaba/Foto-for-Story-VK/main/achievement1.png",
+              "clickable_zones": [
+                {
+                  "action_type": "link",
+                  "action": {
+                    "link": "https://vk.com/wall-166562603_1192",
+                    "tooltip_text_key": "tooltip_open_post"
+                  },
+                  "clickable_area": [
+                    {
+                      "x": 17,
+                      "y": 110
+                    },
+                    {
+                      "x": 97,
+                      "y": 110
+                    },
+                    {
+                      "x": 97,
+                      "y": 132
+                    },
+                    {
+                      "x": 17,
+                      "y": 132
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
       });
 
       if (storyData.code_data) {
@@ -81,6 +112,83 @@ const Score = ({ id, go }) => {
       // Ошибка
       console.error(error);
     }
+  };
+
+  const showStory = async () => {
+
+    const renderableStickerImage = {
+      content_type: "image", // Тип объекта-стикера (в данном случае, изображение)
+      url: "https://raw.githubusercontent.com/Ssshaba/Foto-for-Story-VK/main/achievement1.png", // Ссылка на картинку
+      // ИЛИ
+      // blob: "data:image/png;base64,<base64-image-data>", // Данные изображения, закодированные как Base64
+
+      transform: {
+        // Параметры, описывающие поворот или смещение стикера в создаваемой истории
+        rotation: 0, // Поворот против часовой стрелки в градусах
+        relation_width: 0.3, // Желаемая ширина стикера относительно экрана
+        translation_x: 0, // Сдвиг стикера по оси X от начального положения в плоскости XY
+        translation_y: 0, // Сдвиг стикера по оси Y от начального положения в плоскости XY
+        gravity: "center" // Расположение стикера
+      },
+
+      clickable_zones: [
+        // Массив областей в стикере, нажатие на которые может вызвать какое-либо действие
+        {
+          action_type: "link", // Тип области (в данном случае, ссылка)
+          action: {
+            link: "https://vk.com/wall-166562603_1192", // Ссылка, которая будет открыта при нажатии
+            tooltip_text_key: "tooltip_open_post"
+          },
+          clickable_area: [
+            // Массив координат области
+            { x: 17, y: 110 },
+            { x: 97, y: 110 },
+            { x: 97, y: 132 },
+            { x: 17, y: 132 }
+          ]
+        }
+        // Добавьте другие области, если необходимо
+      ],
+
+      can_delete: true // Информация о том, может ли пользователь удалить стикер из истории
+    };
+
+    const nativeStickerText = {
+      can_delete: 0,
+      action_type: "text",
+      action: {
+        text: "Ваш текст здесь",
+        style: "cursive",
+        selection_color: "#BC27DE",
+      },
+
+      transform: {
+        rotation: 0, // Поворот текста
+        relation_width: 0.5, // Желаемая ширина текста относительно экрана
+        translation_x: 0, // Сдвиг текста по оси X от начального положения в плоскости XY
+        translation_y: 0.15, // Сдвиг текста по оси Y от начального положения в плоскости XY
+        gravity: "center" // Расположение текста
+      }
+    };
+
+    const storyParams = {
+      background_type: "image",
+      url: "https://raw.githubusercontent.com/Ssshaba/Foto-for-Story-VK/main/STORY2.png",
+      stickers: [
+        {
+          sticker_type: "renderable",
+          sticker: renderableStickerImage,
+        },
+        {
+          sticker_type: "native",
+          sticker: nativeStickerText,
+        },
+      ],
+    };
+
+// Отправка события VKWebAppShowStoryBox с параметрами
+    bridge.send('VKWebAppShowStoryBox', storyParams);
+
   };
 
   const handleGetFriendsClick = async () => {
@@ -197,7 +305,7 @@ const Score = ({ id, go }) => {
                   <Icon28DonateOutline style={{ color: 'white', width: '20px', height: '20px' }} />
                   <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>
                 </div>
-                <IconButton onClick={handleGetStoryClick}>
+                <IconButton onClick={showStory}>
                   <Icon28ShareOutline fill="#007fff"/>
                 </IconButton>
               </Div>

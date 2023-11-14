@@ -36,6 +36,8 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
     const [formValid, setFormValid] = useState(false);
     const [buttonClicked, setButtonClicked] = useState(false);
     const [snackbar, setSnackbar] = useState(null);
+    const [hasSentData, setHasSentData] = useState(false);
+
 
 
     useEffect(() => {
@@ -68,6 +70,25 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
 
     useEffect(() => {
         fetchData();
+    }, []);
+
+    useEffect(() => {
+        // Проверяем, отправлял ли пользователь данные
+        bridge.send('VKWebAppStorageGet', {
+            keys: ['hasSentData']
+        })
+            .then((storageData) => {
+                if (storageData.keys) {
+                    const storedData = storageData.keys.find(item => item.key === 'hasSentData');
+                    if (storedData && storedData.value === 'true') {
+                        setModalActive(null); // Установите modalActive в null, чтобы закрыть модальное окно
+                        setHasSentData(true);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка при проверке данных в хранилище:', error);
+            });
     }, []);
 
     const handleSend = async (group, faculty) => {
@@ -129,7 +150,10 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                 );
 
                 // Например, закрытие модального окна
-                // setModal(null);
+                setModalActive(null);
+
+                // Помечаем, что пользователь отправил данные
+                bridge.send('VKWebAppStorageSet', { key: 'hasSentData', value: 'true' });
             } else {
                 // Обработка ошибки
                 console.error('Ошибка при отправке данных на сервер');
@@ -140,9 +164,6 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
             console.error('Статус ошибки:', error.status);
             console.error('Текст ошибки:', error.statusText);
         }
-
-        // Помечаем, что пользователь отправил данные
-        localStorage.setItem('hasSentData', 'true');
     };
 
 
@@ -215,16 +236,11 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
         </ModalRoot>
     );
     useEffect(() => {
-        // Проверяем, отправлял ли пользователь данные
-        const hasSentData = localStorage.getItem('hasSentData');
+        // Если пользователь уже отправил данные, не открываем модальное окно
         if (hasSentData) {
-            console.log(localStorage);
-            // Если пользователь уже отправлял данные, не открываем модальное окно
-            setModalActive(null); // Установите modalActive в null, чтобы закрыть модальное окно
-            return;
+            setModalActive(null);
         }
-        setModalActive('welcomeModal');
-    }, []);
+    }, [hasSentData]);
 
 
 
