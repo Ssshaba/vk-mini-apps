@@ -289,10 +289,10 @@ const Score = ({ id, go }) => {
                   size={100}
                   style={{
                     border: '3px solid #3CB6A2',
-                    marginBottom: '35px',
+                    marginBottom: '40px',
                   }}
                 />
-                <div style={{marginLeft: '10px', display: 'flex', alignItems: 'center'}}>
+                <div style={{marginLeft: '10px', marginTop: '-40px', display: 'flex', alignItems: 'center'}}>
                   <div style={{
                     display: 'flex',
                     justifyContent: 'center',
