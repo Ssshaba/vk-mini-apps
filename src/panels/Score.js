@@ -301,7 +301,7 @@ const Score = ({ id, go }) => {
                     height: '30px',
                     background: 'linear-gradient(to right, #4DDA65, #298FE1)',
                     borderRadius: '9px',
-                    padding: '5px 15px',
+                    padding: '2px 20px',
                   }}>
                     <Icon16DonateOultine style={{ color: 'white' }} />
                     <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>
@@ -315,7 +315,7 @@ const Score = ({ id, go }) => {
               )}
               <img src={gift} 
                 alt="Gift"
-                style={{ width: '172px', height: '172px', marginLeft: '-25px'}} />
+                style={{ width: '172px', height: '160px', marginLeft: '-25px'}} />
             </Div>
           </Div>
           {snackbar}

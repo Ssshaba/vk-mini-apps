@@ -12,7 +12,7 @@ import {
     PanelHeaderBack,
     FixedLayout
 } from '@vkontakte/vkui';
-import {Icon20DonateOutline} from "@vkontakte/icons";
+import {Icon16DonateOultine} from "@vkontakte/icons";
 
 const InfoEvent = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
     const [eventInfo, setEventInfo] = useState(null);
@@ -45,10 +45,9 @@ const InfoEvent = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                                 <Title level="1" weight="bold" style={{fontSize: '22px'}}>
                                     {eventInfo.name}
                                 </Title>
-                                <div style={{display: 'flex', fontSize: '20px'}}>
-                                    <Icon20DonateOutline fill="var(--vkui--color_icon_positive)"
-                                                         style={{marginRight: '8px'}}/>
-                                    <Text weight="2">{eventInfo.points} баллов</Text>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <Icon16DonateOultine fill="var(--vkui--color_icon_positive)" style={{ marginRight: '8px' }} />
+                                    <Text weight="2" style={{ marginBottom: 0 }}>{eventInfo.points} баллов</Text>
                                 </div>
                                 <Text weight="3">{eventInfo.location} · {eventInfo.date}</Text>
                                 <Title level="2" weight="bold" style={{fontSize: '22px', paddingTop: '16px', paddingBottom: '16px'}}>
