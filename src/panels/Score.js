@@ -34,7 +34,7 @@ import achievement6 from '../img/lockedachievement6.png';
 
 import {
   Icon28CheckCircleOutline,
-  Icon28AddSquareOutline,
+  Icon20DonateOutline,
   Icon28DonateOutline,
   Icon28ShareOutline,
   Icon12Repost
@@ -289,10 +289,10 @@ const Score = ({ id, go }) => {
                   size={80}
                   style={{
                     border: '3px solid #3CB6A2',
-                    marginBottom: '5px',
+                    marginBottom: '15px',
                   }}
                 />
-                <Div style={{marginLeft: '10px', display: 'flex', alignItems: 'center'}}>
+                <div style={{marginLeft: '10px', display: 'flex', alignItems: 'center'}}>
                   <div style={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -301,21 +301,21 @@ const Score = ({ id, go }) => {
                     height: '30px',
                     background: 'linear-gradient(to right, #4DDA65, #298FE1)',
                     borderRadius: '9px',
-                    padding: '0px 25px',
+                    padding: '0px 15px',
                   }}>
-                    <Icon28DonateOutline style={{ color: 'white', width: '20px', height: '20px' }} />
+                    <Icon20DonateOutline style={{ color: 'white' }} />
                     <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>
                   </div>
                   <IconButton onClick={showStory}>
                     <Icon28ShareOutline fill="#007fff" />
                   </IconButton>
-                </Div>
+                </div>
               </div>
               </>
               )}
               <img src={gift} 
                 alt="Gift"
-                style={{ width: '172px', height: '172px', marginLeft: '-20px'}} />
+                style={{ width: '172px', height: '172px', marginLeft: '-25px'}} />
             </Div>
           </Div>
           {snackbar}
