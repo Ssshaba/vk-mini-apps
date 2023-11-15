@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import {
     Avatar,
+    Button,
     Card,
     CardGrid,
     Cell,
@@ -15,6 +16,8 @@ import {
     HorizontalCell,
     HorizontalScroll,
     Image,
+    ModalPage,
+    ModalRoot,
     Panel,
     PanelHeader,
     PanelHeaderBack,
@@ -32,7 +35,6 @@ import BGforProfile from '../img/BGforProfile.png';
 import product1 from '../img/product1.png';
 import product2 from '../img/product2.png';
 import achievement1 from '../img/newachievement1.png';
-import achievement2 from '../img/newachievement2.png';
 
 import bridge from "@vkontakte/vk-bridge";
 import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon20DonateOutline, Icon28DonateOutline, Icon28CrownOutline, Icon28UserCircleOutline} from "@vkontakte/icons";
@@ -44,6 +46,7 @@ const Profile = ({ id, go }) => {
     const [userLastName, setUserLastName] = useState(null);
     const [usersData, setUsersData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [modalActive, setModalActive] = useState(null);
 
     useEffect(() => {
         const fetchUserInfo = async () => {
@@ -94,27 +97,52 @@ const Profile = ({ id, go }) => {
         ));
       };
 
+      const handleCloseModal = () => {
+        console.log('handleCloseModal called');
+        setModalActive(null);
+      };
+      
+      const modal = (
+        <ModalRoot activeModal={modalActive}>
+            <ModalPage id="shareModal" onClose={() => setModalActive(null)}>
+                <Div style={{ textAlign: 'center' }}>
+                    <Image size={88} borderRadius="l" src={achievement1} />
+                    <Div style={{ color: '#4CD964', marginTop: '8px' }}>
+                        Ты супер!
+                    </Div>
+                    <Div style={{ color: '#2688EB', marginBottom: '16px' }}>
+                        Так держать!
+                    </Div>
+                </Div>
+                <Button size="l" stretched onClick={() => handleCloseModal()} style={{background: '#2688EB'}}>
+                    Поделиться в истории
+                </Button>
+            </ModalPage>
+        </ModalRoot>
+    );
+
       const achievementsItems = [
         {
           id: 1,
           title: 'Почуствовал вкус',
           icon_139: achievement1,
         },
-        {
-          id: 2,
-          title: 'Отличник',
-          icon_139: achievement2,
-        }
+        
       ];
       
       const AchievementsItems = () => {
         return achievementsItems.map(({ id, title, icon_139 }) => (
-          <HorizontalCell key={id} size="m" header={title} style={{ whiteSpace: 'normal' }}>
-            <Image size={88} borderRadius="l" src={icon_139} />
+            <HorizontalCell 
+                key={id}
+                size="m" 
+                header={title} 
+                style={{ whiteSpace: 'normal' }}
+                onClick={() => 
+                setModalActive('shareModal')}>
+                <Image size={88} borderRadius="l" src={icon_139} />
           </HorizontalCell>
         ));
       }; 
-
 
     return (
         <Epic activeStory={id}>

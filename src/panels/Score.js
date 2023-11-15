@@ -19,17 +19,18 @@ import {
   Separator
 } from '@vkontakte/vkui';
 import wrapperForScore from '../img/wrapperForScore.png';
+import gift from '../img/gift.png';
 import product1 from '../img/product1.png';
 import product2 from '../img/product2.png';
 import product3 from '../img/product3.png';
 import product4 from '../img/product4.png';
 import product5 from '../img/product5.png';
 import achievement1 from '../img/newachievement1.png';
-import achievement2 from '../img/newachievement2.png';
-import achievement3 from '../img/newachievement3.png';
-import achievement4 from '../img/newachievement4.png';
-import achievement5 from '../img/newachievement5.png';
-import achievement6 from '../img/newachievement6.png';
+import achievement2 from '../img/lockedachievement2.png';
+import achievement3 from '../img/lockedachievement3.png';
+import achievement4 from '../img/lockedachievement4.png';
+import achievement5 from '../img/lockedachievement5.png';
+import achievement6 from '../img/lockedachievement6.png';
 
 import {
   Icon28CheckCircleOutline,
@@ -222,12 +223,12 @@ const Score = ({ id, go }) => {
     },
     {
       id: 3,
-      title: 'Мамина гордость',
+      title: 'Мамина         гордость',
       icon_139: achievement3,
     },
     {
       id: 4,
-      title: 'Oh yeah, baby!',
+      title: 'Oh yeah,       baby!',
       icon_139: achievement4,
     },
     {
@@ -244,11 +245,11 @@ const Score = ({ id, go }) => {
   
   const AchievementsItems = () => {
     return achievementsItems.map(({ id, title, icon_139 }) => (
-      <HorizontalCell key={id} size="m" header={title} style={{ whiteSpace: 'normal' }}>
+      <HorizontalCell key={id} size="m" header={title} style={{ whiteSpace: 'break-spaces' }}>
         <Image size={88} borderRadius="l" src={icon_139} />
       </HorizontalCell>
     ));
-  };  
+  };
   
   const handleButtonClick = (productId) => {
 
@@ -271,26 +272,27 @@ const Score = ({ id, go }) => {
       <Panel id={id}>
         <PanelHeader 
           before={<PanelHeaderBack onClick={go} data-to="home"/>}
-          style={{textAlign: 'center'}}
-        >Мои баллы</PanelHeader>
-
+          style={{textAlign: 'center'}}>
+            Мои баллы
+        </PanelHeader>
         <Div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
           <Div style={{ position: 'relative', width: '100%', marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <img
-              src={wrapperForScore}
+            <img src={wrapperForScore}
               alt="Рамка для баллов"
-              style={{ width: '90%', maxWidth: '90%' }}
-            />
-            <Div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              {userPhoto && <Avatar 
-                src={userPhoto} 
-                size={100}  
-                style={{ 
-                  border: '3px solid #3CB6A2',
-                  marginTop: '15px'
-                }} 
-              />}
-              <Div style={{marginLeft: '10px', display: 'flex', alignItems: 'center'}}>
+              style={{ width: '90%', maxWidth: '90%' }}/>
+            <Div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', display: 'flex', alignItems: 'center' }}>
+              {userPhoto && (
+              <>
+              <div style={{ marginRight: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Avatar
+                  src={userPhoto}
+                  size={100}
+                  style={{
+                    border: '3px solid #3CB6A2',
+                    marginBottom: '5px',
+                  }}
+                />
+                <Div style={{marginLeft: '10px', display: 'flex', alignItems: 'center'}}>
                   <div style={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -299,16 +301,21 @@ const Score = ({ id, go }) => {
                     height: '30px',
                     background: 'linear-gradient(to right, #4DDA65, #298FE1)',
                     borderRadius: '9px',
-                    padding: '0px 20px',
-                    marginRight: '10px',
+                    padding: '0px 15px',
                   }}>
-                  <Icon28DonateOutline style={{ color: 'white', width: '20px', height: '20px' }} />
-                  <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>
-                </div>
-                <IconButton onClick={showStory}>
-                  <Icon28ShareOutline fill="#007fff"/>
-                </IconButton>
-              </Div>
+                    <Icon28DonateOutline style={{ color: 'white', width: '20px', height: '20px' }} />
+                    <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>
+                  </div>
+                  <IconButton onClick={showStory}>
+                    <Icon28ShareOutline fill="#007fff" />
+                  </IconButton>
+                </Div>
+              </div>
+              </>
+              )}
+              <img src={gift} 
+                alt="Gift"
+                style={{ width: '172px', height: '172px', marginBottom: '10px'}} />
             </Div>
           </Div>
           {snackbar}
