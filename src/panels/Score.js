@@ -286,13 +286,13 @@ const Score = ({ id, go }) => {
               <div style={{ marginRight: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Avatar
                   src={userPhoto}
-                  size={80}
+                  size={100}
                   style={{
                     border: '3px solid #3CB6A2',
-                    marginBottom: '25px',
+                    marginBottom: '30px',
                   }}
                 />
-                <div style={{marginLeft: '10px', marginTop: '-10px', display: 'flex', alignItems: 'center'}}>
+                <div style={{marginLeft: '10px', marginTop: '-20px', display: 'flex', alignItems: 'center'}}>
                   <div style={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -301,7 +301,7 @@ const Score = ({ id, go }) => {
                     height: '30px',
                     background: 'linear-gradient(to right, #4DDA65, #298FE1)',
                     borderRadius: '9px',
-                    padding: '2px 20px',
+                    padding: '1px 20px',
                   }}>
                     <Icon16DonateOultine style={{ color: 'white' }} />
                     <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>

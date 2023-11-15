@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {View, Panel, PanelHeader, Group, CardGrid, ContentCard, Div, Epic, Tabbar, TabbarItem, Text} from '@vkontakte/vkui';
-import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon20DonateOutline, Icon20ShareOutline, Icon28UserCircleOutline} from "@vkontakte/icons";
+import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon16DonateOultine, Icon20ShareOutline, Icon28UserCircleOutline} from "@vkontakte/icons";
 import bridge from "@vkontakte/vk-bridge";
 
 const Home = ({id, go, fetchedUser,  handleEventClick}) => {
@@ -47,10 +47,10 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
                             background: 'linear-gradient(to right, #4DDA65, #298FE1)',
                             borderRadius: '9px',
                             boxShadow: '0px 4px 6px rgba(0, 0.3, 0, 0.3)',
-                            padding: '0px 20px',
+                            padding: '1px 20px',
                             marginLeft: '20px'
                         }}>
-                        <Icon20DonateOutline style={{ color: 'white', width: '20px', height: '20px' }} />
+                        <Icon16DonateOultine style={{ color: 'white', width: '20px', height: '20px' }} />
                         <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>
                     </div>
                 }>Мероприятия

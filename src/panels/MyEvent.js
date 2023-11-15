@@ -20,7 +20,7 @@ import {
 import './styles/Persik.css';
 import sadPersik from '../img/newSadPersik.png';
 import bridge from "@vkontakte/vk-bridge";
-import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon28UserCircleOutline, Icon20DonateOutline, Icon24ShareOutline} from "@vkontakte/icons";
+import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon28UserCircleOutline, Icon16DonateOultine, Icon24ShareOutline} from "@vkontakte/icons";
 
 
 const MyEvent = ({ id, go, handleMyEventClick }) => {
@@ -78,10 +78,10 @@ const MyEvent = ({ id, go, handleMyEventClick }) => {
                                 background: 'linear-gradient(to right, #4DDA65, #298FE1)',
                                 borderRadius: '9px',
                                 boxShadow: '0px 4px 6px rgba(0, 0.3, 0, 0.3)',
-                                padding: '0px 20px',
+                                padding: '1px 20px',
                                 marginLeft: '20px'
                             }}>
-                        <Icon20DonateOutline style={{ color: 'white', width: '20px', height: '20px' }} />
+                        <Icon16DonateOultine style={{ color: 'white', width: '20px', height: '20px' }} />
                         <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>
                     </div>
                 }>Мой выбор
