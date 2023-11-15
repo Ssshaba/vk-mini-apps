@@ -280,13 +280,13 @@ const Score = ({ id, go }) => {
             <img src={wrapperForScore}
               alt="Рамка для баллов"
               style={{ width: '90%', maxWidth: '90%' }}/>
-            <Div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', display: 'flex', alignItems: 'center' }}>
+            <Div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', display: 'flex', alignItems: 'center' , justifyContent: 'center' }}>
               {userPhoto && (
               <>
               <div style={{ marginRight: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Avatar
                   src={userPhoto}
-                  size={100}
+                  size={80}
                   style={{
                     border: '3px solid #3CB6A2',
                     marginBottom: '5px',
@@ -301,7 +301,7 @@ const Score = ({ id, go }) => {
                     height: '30px',
                     background: 'linear-gradient(to right, #4DDA65, #298FE1)',
                     borderRadius: '9px',
-                    padding: '0px 15px',
+                    padding: '0px 25px',
                   }}>
                     <Icon28DonateOutline style={{ color: 'white', width: '20px', height: '20px' }} />
                     <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>
@@ -315,7 +315,7 @@ const Score = ({ id, go }) => {
               )}
               <img src={gift} 
                 alt="Gift"
-                style={{ width: '172px', height: '172px', marginBottom: '10px'}} />
+                style={{ width: '172px', height: '172px', marginLeft: '-20px'}} />
             </Div>
           </Div>
           {snackbar}
