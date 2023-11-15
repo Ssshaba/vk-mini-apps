@@ -34,7 +34,7 @@ import achievement6 from '../img/lockedachievement6.png';
 
 import {
   Icon28CheckCircleOutline,
-  Icon20DonateOutline,
+  Icon16DonateOultine,
   Icon28DonateOutline,
   Icon28ShareOutline,
   Icon12Repost
@@ -289,10 +289,10 @@ const Score = ({ id, go }) => {
                   size={80}
                   style={{
                     border: '3px solid #3CB6A2',
-                    marginBottom: '15px',
+                    marginBottom: '25px',
                   }}
                 />
-                <div style={{marginLeft: '10px', display: 'flex', alignItems: 'center'}}>
+                <div style={{marginLeft: '10px', marginTop: '-10px', display: 'flex', alignItems: 'center'}}>
                   <div style={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -301,9 +301,9 @@ const Score = ({ id, go }) => {
                     height: '30px',
                     background: 'linear-gradient(to right, #4DDA65, #298FE1)',
                     borderRadius: '9px',
-                    padding: '0px 15px',
+                    padding: '5px 15px',
                   }}>
-                    <Icon20DonateOutline style={{ color: 'white' }} />
+                    <Icon16DonateOultine style={{ color: 'white' }} />
                     <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>
                   </div>
                   <IconButton onClick={showStory}>
