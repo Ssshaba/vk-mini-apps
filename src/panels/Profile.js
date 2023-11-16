@@ -84,15 +84,66 @@ const Profile = ({id, go}) => {
     }, []);
 
 
-    // Функция для открытия камеры
+
+    const updateUserPoints = async (pointsToAdd) => {
+        try {
+            const user = await bridge.send('VKWebAppGetUserInfo');
+            const userId = user.id;
+
+            // Преобразуйте данные из QR-кода в число
+            const parsedPoints = parseInt(pointsToAdd, 10);
+
+            // Проверьте, является ли parsedPoints числовым значением
+            if (!isNaN(parsedPoints)) {
+                console.log('Parsed points:', parsedPoints); // Добавленный консоль-лог для отладки
+
+                // Определите URL для PUT-запроса
+                const url = `https://persikivk.ru/api/user/plus-points/${userId}`;
+
+                // Определите данные, которые вы хотите отправить в теле запроса
+                const data = {
+                    pointsToAdd: parsedPoints
+                };
+
+                // Определите настройки запроса
+                const requestOptions = {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Добавьте любые другие необходимые заголовки
+                    },
+                    body: JSON.stringify(data)
+                };
+
+                // Выполните запрос с помощью функции fetch
+                const response = await fetch(url, requestOptions);
+
+                // Проверьте, успешен ли запрос (статус 200)
+                if (response.ok) {
+                    console.log('Баллы успешно обновлены.');
+                    // Вы можете выполнить дополнительные действия после успешного обновления баллов
+                } else {
+                    console.error('Ошибка при обновлении баллов:', response.status, response.statusText);
+                }
+            } else {
+                console.error('Некорректные данные QR-кода:', pointsToAdd);
+            }
+        } catch (error) {
+            console.error('Ошибка при выполнении PUT-запроса:', error);
+        }
+    };
+
+// Функция для открытия камеры
     const openCamera = async () => {
         try {
             const data = await bridge.send('VKWebAppOpenCodeReader');
 
             if (data.code_data) {
-
                 // Результат сканирования получен
                 console.log('Результат сканирования:', data.code_data);
+
+                // Обновляем баллы пользователя, используя данные с QR-кода
+                await updateUserPoints(data.code_data);
 
                 // Сохраняем результат в локальное хранилище
                 await bridge.send('VKWebAppStorageSet', {
@@ -112,6 +163,7 @@ const Profile = ({id, go}) => {
             console.error('Ошибка при открытии сканера кода:', error);
         }
     };
+
 
     const renderUsersData = () => {
         if (loading || !usersData || usersData.length === 0) {
@@ -202,7 +254,7 @@ const Profile = ({id, go}) => {
                             <Icon20DonateOutline style={{color: 'white', width: '20px', height: '20px'}}/>
                             <Text weight="2" style={{color: 'white', fontSize: '17px', paddingLeft: '5px'}}>0</Text>
                         </div>
-                    }>Профиль
+                    }>Профилью
                     </PanelHeader>
                     <div style={{
                         position: 'relative',
