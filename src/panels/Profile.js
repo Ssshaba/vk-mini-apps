@@ -15,6 +15,7 @@ import {
     Header,
     HorizontalCell,
     HorizontalScroll,
+    IconButton,
     Image,
     ModalPage,
     ModalRoot,
@@ -40,10 +41,11 @@ import bridge from "@vkontakte/vk-bridge";
 import {
     Icon28CalendarOutline,
     Icon28FavoriteOutline,
-    Icon20DonateOutline,
+    Icon16DonateOultine,
     Icon28DonateOutline,
     Icon28CrownOutline,
-    Icon28UserCircleOutline
+    Icon28UserCircleOutline,
+    Icon28QrCodeOutline
 } from "@vkontakte/icons";
 
 
@@ -167,17 +169,21 @@ const Profile = ({id, go}) => {
 
     const renderUsersData = () => {
         if (loading || !usersData || usersData.length === 0) {
-            return <Spinner size="medium"/>;
+            return <Spinner size="medium" />;
         }
-
-        return usersData.map((user) => (
+    
+        // Sort by points in descending order
+        const sortedUsersData = usersData
+            .sort((a, b) => (b.points || 0) - (a.points || 0));
+    
+        return sortedUsersData.map((user) => (
             <Cell
                 key={user.id}
                 before={<Avatar src={user.photo100} size={48}/>}
                 after={
-                    <Div style={{display: 'flex', alignItems: 'center'}}>
-                        <Text style={{marginRight: '8px', color: '#2787F5'}}>{`${user.points}`}</Text>
-                        <Icon28DonateOutline style={{color: '#4CD964'}}/>
+                    <Div style={{ display: 'flex', alignItems: 'center' }}>
+                        <Text style={{ marginRight: '8px', color: '#2787F5' }}>{`${user.points || 0}`}</Text>
+                        <Icon28DonateOutline style={{ color: '#4CD964' }}/>
                     </Div>
                 }
             >
@@ -185,6 +191,7 @@ const Profile = ({id, go}) => {
             </Cell>
         ));
     };
+    
 
     const handleCloseModal = () => {
         console.log('handleCloseModal called');
@@ -238,23 +245,23 @@ const Profile = ({id, go}) => {
             <View id={id} activePanel={id}>
                 <Panel id={id}>
                     <PanelHeader style={{textAlign: 'center'}} before={
-                        <div onClick={go} data-to="score"
-                             style={{
-                                 display: 'flex',
-                                 justifyContent: 'center',
-                                 alignItems: 'center',
-                                 width: 'auto',
-                                 height: '30px',
-                                 background: 'linear-gradient(to right, #4DDA65, #298FE1)',
-                                 borderRadius: '9px',
-                                 boxShadow: '0px 4px 6px rgba(0, 0.3, 0, 0.3)',
-                                 padding: '0px 20px',
-                                 marginLeft: '20px'
-                             }}>
-                            <Icon20DonateOutline style={{color: 'white', width: '20px', height: '20px'}}/>
-                            <Text weight="2" style={{color: 'white', fontSize: '17px', paddingLeft: '5px'}}>0</Text>
-                        </div>
-                    }>Профилью
+                    <div onClick={go} data-to="score"
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: 'auto',
+                            height: '30px',
+                            background: 'linear-gradient(to right, #4DDA65, #298FE1)',
+                            borderRadius: '9px',
+                            boxShadow: '0px 4px 6px rgba(0, 0.3, 0, 0.3)',
+                            padding: '1px 20px',
+                            marginLeft: '20px'
+                        }}>
+                        <Icon16DonateOultine style={{ color: 'white', width: '20px', height: '20px' }} />
+                        <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>
+                    </div>
+                    }>Профиль
                     </PanelHeader>
                     <div style={{
                         position: 'relative',
@@ -290,6 +297,11 @@ const Profile = ({id, go}) => {
                                     {userFirstName} {userLastName}
                                 </Text>
                             </Div>
+                        </Div>
+                        <Div style={{ position: 'absolute', top: '15px', right: '15px' }}>
+                            <IconButton>
+                                <Icon28QrCodeOutline centered style={{color: '#0F4668', height: '43px', weight: '43px'}}/>
+                            </IconButton>
                         </Div>
                     </div>
 

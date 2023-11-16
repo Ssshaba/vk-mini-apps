@@ -55,7 +55,7 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
                     </div>
                 }>Мероприятия
                 </PanelHeader>
-                <Group style={{marginBottom: '30px', paddingBottom: '30px'}}>
+                <Group style={{marginBottom: '10px'}}>
                         {events.map((event) => (
                             <Div key={event.id} style={{  display: 'flex', justifyContent: 'center' }}>
                                 <ContentCard

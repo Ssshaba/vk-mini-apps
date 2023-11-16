@@ -86,7 +86,7 @@ const MyEvent = ({ id, go, handleMyEventClick }) => {
                     </div>
                 }>Мой выбор
                 </PanelHeader>
-                    <Group style={{marginBottom: '30px', paddingBottom: '30px'}}>
+                    <Group style={{marginBottom: '10px'}}>
                         {userEvents.length === 0 ? (
                             <Div style={{textAlign: 'center'}}>
                                 <img
