@@ -33,6 +33,7 @@ import {
 
 import './styles/Persik.css';
 import BGforProfile from '../img/BGforProfile.png';
+import QRCodeButton from '../img/QRCodeButton.png';
 import product1 from '../img/product1.png';
 import product2 from '../img/product2.png';
 import achievement1 from '../img/newachievement1.png';
@@ -366,13 +367,13 @@ const Profile = ({id, go}) => {
                                                 </Text>
                                             </Div>
                                         </Div>
-                                        <Div style={{position: 'absolute', top: '15px', right: '15px'}}>
-                                            <IconButton>
-                                                <Icon28QrCodeOutline centered onClick={openCamera} style={{
-                                                    color: '#0F4668',
-                                                    height: '60px',
-                                                    weight: '60px'
-                                                }}/>
+                                        <Div style={{ position: 'absolute', top: '15px', right: '15px' }}>
+                                            <IconButton onClick={openCamera}>
+                                                <img
+                                                    src={QRCodeButton}
+                                                    alt="QRCodeButton"
+                                                    style={{ width: '60px', height: '60px' }}
+                                                />
                                             </IconButton>
                                         </Div>
                                     </div>
