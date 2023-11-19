@@ -56,10 +56,9 @@ const Profile = ({id, go}) => {
     const [userLastName, setUserLastName] = useState(null);
     const [usersData, setUsersData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [modalActive, setModalActive] = useState(null);
     const [qrCodeData, setQrCodeData] = useState('');
 
-    
+
     useEffect(() => {
 
         // Получаем значения переменных из хранилища
@@ -266,26 +265,6 @@ const Profile = ({id, go}) => {
         setModalActive(null);
     };
 
-    const modal = (
-        <ModalRoot activeModal={modalActive}>
-            <ModalPage id="shareModal" onClose={() => setModalActive(null)}>
-                <Div style={{textAlign: 'center'}}>
-                    <Image size={88} borderRadius="l" src={achievement1}/>
-                    <Div style={{color: '#4CD964', marginTop: '8px'}}>
-                        Ты супер!
-                    </Div>
-                    <Div style={{color: '#2688EB', marginBottom: '16px'}}>
-                        Так держать!
-                    </Div>
-                </Div>
-                <Button size="l" stretched onClick={() => handleCloseModal()}
-                        style={{background: '#2688EB'}}>
-                    Поделиться в истории
-                </Button>
-            </ModalPage>
-        </ModalRoot>
-    );
-
     const achievementsItems = [
         {
             id: 1,
@@ -301,9 +280,7 @@ const Profile = ({id, go}) => {
                 key={id}
                 size="m"
                 header={title}
-                style={{whiteSpace: 'normal'}}
-                onClick={() =>
-                    setModalActive('shareModal')}>
+                style={{whiteSpace: 'normal'}}>
                 <Image size={88} borderRadius="l" src={icon_139}/>
             </HorizontalCell>
         ));
