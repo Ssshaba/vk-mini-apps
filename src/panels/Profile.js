@@ -59,6 +59,7 @@ const Profile = ({id, go}) => {
     const [modalActive, setModalActive] = useState(null);
     const [qrCodeData, setQrCodeData] = useState('');
 
+    
     useEffect(() => {
 
         // Получаем значения переменных из хранилища
