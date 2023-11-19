@@ -78,14 +78,15 @@ const MyEvent = ({ id, go, handleMyEventClick }) => {
                                 background: 'linear-gradient(to right, #4DDA65, #298FE1)',
                                 borderRadius: '9px',
                                 boxShadow: '0px 4px 6px rgba(0, 0.3, 0, 0.3)',
-                                padding: '1px 20px',
-                                marginLeft: '20px'
+                                paddingLeft: '20px',
+                                paddingRight: '20px',
+                                marginLeft: '15px'
                             }}>
-                        <Icon16DonateOultine style={{ color: 'white', width: '20px', height: '20px' }} />
-                        <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>
-                    </div>
-                }>Мой выбор
-                </PanelHeader>
+                            <Icon16DonateOultine
+                                style={{color: 'white', width: '20px', height: '20px'}}/>
+                        </div>
+                        }>Мой выбор
+                    </PanelHeader>
                     <Group style={{marginBottom: '10px'}}>
                         {userEvents.length === 0 ? (
                             <Div style={{textAlign: 'center'}}>
