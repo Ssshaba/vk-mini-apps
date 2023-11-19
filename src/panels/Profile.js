@@ -128,32 +128,32 @@ const Profile = ({id, go}) => {
         };
 
 
-        const fetchUsersData = async () => {
-            try {
-                const response = await fetch('https://persikivk.ru/api/user/');
-                const data = await response.json();
 
-                console.log('Исходные данные пользователей:', data);
-
-                // Сортируем пользователей по полю "points"
-                const sortedUsers = data.slice().sort((a, b) => b.points - a.points);
-
-                console.log('Отсортированные данные пользователей:', sortedUsers);
-
-                setUsersData(sortedUsers);
-                setLoading(false);
-            } catch (error) {
-                console.error('Ошибка при получении данных пользователей:', error);
-                setLoading(false);
-            }
-        };
 
         fetchUserInfo();
         fetchUsersData();
     }, []);
 
 
+    const fetchUsersData = async () => {
+        try {
+            const response = await fetch('https://persikivk.ru/api/user/');
+            const data = await response.json();
 
+            console.log('Исходные данные пользователей:', data);
+
+            // Сортируем пользователей по полю "points"
+            const sortedUsers = data.slice().sort((a, b) => b.points - a.points);
+
+            console.log('Отсортированные данные пользователей:', sortedUsers);
+
+            setUsersData(sortedUsers);
+            setLoading(false);
+        } catch (error) {
+            console.error('Ошибка при получении данных пользователей:', error);
+            setLoading(false);
+        }
+    };
     const updateUserPoints = async (pointsToAdd) => {
         try {
             const user = await bridge.send('VKWebAppGetUserInfo');
