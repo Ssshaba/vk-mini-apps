@@ -28,7 +28,7 @@ import {
     Text,
     Title,
     Separator,
-    Spinner
+    Spinner, SplitLayout, ModalPageHeader, PanelHeaderClose
 } from '@vkontakte/vkui';
 
 import './styles/Persik.css';
@@ -57,6 +57,8 @@ const Profile = ({id, go}) => {
     const [usersData, setUsersData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [qrCodeData, setQrCodeData] = useState('');
+    const [modal, setModal] = useState(null); // Состояние модального окна
+    const [receivedPoints, setReceivedPoints] = useState(null); // Состояние для отслеживания полученных баллов
 
 
     useEffect(() => {
@@ -126,32 +128,32 @@ const Profile = ({id, go}) => {
         };
 
 
-        const fetchUsersData = async () => {
-            try {
-                const response = await fetch('https://persikivk.ru/api/user/');
-                const data = await response.json();
 
-                console.log('Исходные данные пользователей:', data);
-
-                // Сортируем пользователей по полю "points"
-                const sortedUsers = data.slice().sort((a, b) => b.points - a.points);
-
-                console.log('Отсортированные данные пользователей:', sortedUsers);
-
-                setUsersData(sortedUsers);
-                setLoading(false);
-            } catch (error) {
-                console.error('Ошибка при получении данных пользователей:', error);
-                setLoading(false);
-            }
-        };
 
         fetchUserInfo();
         fetchUsersData();
     }, []);
 
 
+    const fetchUsersData = async () => {
+        try {
+            const response = await fetch('https://persikivk.ru/api/user/');
+            const data = await response.json();
 
+            console.log('Исходные данные пользователей:', data);
+
+            // Сортируем пользователей по полю "points"
+            const sortedUsers = data.slice().sort((a, b) => b.points - a.points);
+
+            console.log('Отсортированные данные пользователей:', sortedUsers);
+
+            setUsersData(sortedUsers);
+            setLoading(false);
+        } catch (error) {
+            console.error('Ошибка при получении данных пользователей:', error);
+            setLoading(false);
+        }
+    };
     const updateUserPoints = async (pointsToAdd) => {
         try {
             const user = await bridge.send('VKWebAppGetUserInfo');
@@ -188,7 +190,15 @@ const Profile = ({id, go}) => {
                 // Проверьте, успешен ли запрос (статус 200)
                 if (response.ok) {
                     console.log('Баллы успешно обновлены.');
-                    // Вы можете выполнить дополнительные действия после успешного обновления баллов
+
+                    // Вызываем функцию для открытия модального окна после успешного обновления баллов
+                    openModals(parsedPoints);
+
+                    // Устанавливаем количество полученных баллов в состояние
+                    setReceivedPoints(parsedPoints);
+
+                    // Обновляем данные пользователей, чтобы отразить новые баллы в рейтинге
+                    fetchUsersData();
                 } else {
                     console.error('Ошибка при обновлении баллов:', response.status, response.statusText);
                 }
@@ -231,6 +241,45 @@ const Profile = ({id, go}) => {
         }
     };
 
+    const openModals = (points) => {
+        setModal(
+            <ModalRoot
+                onClose={() => setModal(null)}
+                activeModal="qrModal"
+            >
+                <ModalPage
+                    id="qrModal"
+                    onClose={() => setModal(null)}
+                    header={
+                        <ModalPageHeader
+                            left={<PanelHeaderClose onClick={() => setModal(null)} />}
+                        >
+                            Поздравляю, вы получили баллы
+                        </ModalPageHeader>
+                    }
+                >
+                    <Div style={{ textAlign: 'center' }}>
+                        <img
+                            style={{ width: '80%', borderRadius: '50%', marginTop: '10px' }}
+                            src={achievement1}
+                            alt="картинка"
+                        />
+                        <Text style={{ marginTop: '20px', fontSize: '18px' }}>
+                            Вы получили {points} баллов
+                        </Text>
+                        {/*/!* Добавляем блок с количеством баллов *!/*/}
+                        {/*{receivedPoints && (*/}
+                        {/*    <Text style={{ marginTop: '10px', color: '#888888' }}>*/}
+                        {/*        (Всего баллов: {receivedPoints})*/}
+                        {/*    </Text>*/}
+                        {/*)}*/}
+                    </Div>
+                </ModalPage>
+            </ModalRoot>
+        );
+    };
+
+
 
     const renderUsersData = () => {
         if (loading || !usersData || usersData.length === 0) {
@@ -258,11 +307,6 @@ const Profile = ({id, go}) => {
                 {`${user.name}`}
             </Cell>
         ));
-    };
-
-    const handleCloseModal = () => {
-        console.log('handleCloseModal called');
-        setModalActive(null);
     };
 
     const achievementsItems = [
@@ -445,7 +489,7 @@ const Profile = ({id, go}) => {
                     {/*    </Button>*/}
                     {/*</Div>*/}
 
-
+                    <SplitLayout modal={modal}></SplitLayout>
                     <Tabbar style={{position: 'fixed', bottom: 0, width: '100%'}}>
                         <TabbarItem
                             onClick={go}
