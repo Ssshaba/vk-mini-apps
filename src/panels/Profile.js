@@ -28,7 +28,7 @@ import {
     Text,
     Title,
     Separator,
-    Spinner, SplitLayout, ModalPageHeader, PanelHeaderClose
+    Spinner, SplitLayout, ModalPageHeader, PanelHeaderClose, ModalCard
 } from '@vkontakte/vkui';
 
 import './styles/Persik.css';
@@ -37,6 +37,8 @@ import QRCodeButton from '../img/QRCodeButton.png';
 import product1 from '../img/product1.png';
 import product2 from '../img/product2.png';
 import achievement1 from '../img/newachievement1.png';
+import persicSuccess from '../img/persikQR1.png';
+import  persicFail from '../img/persikQR2.png';
 
 import bridge from "@vkontakte/vk-bridge";
 import {
@@ -46,7 +48,7 @@ import {
     Icon28DonateOutline,
     Icon28CrownOutline,
     Icon28UserCircleOutline,
-    Icon28QrCodeOutline
+    Icon28QrCodeOutline, Icon56ErrorOutline
 } from "@vkontakte/icons";
 
 
@@ -60,6 +62,7 @@ const Profile = ({id, go}) => {
     const [modal, setModal] = useState(null); // Состояние модального окна
     const [receivedPoints, setReceivedPoints] = useState(null); // Состояние для отслеживания полученных баллов
 
+    const [scannedQRCodes, setScannedQRCodes] = useState([]);
 
     useEffect(() => {
 
@@ -127,9 +130,6 @@ const Profile = ({id, go}) => {
             }
         };
 
-
-
-
         fetchUserInfo();
         fetchUsersData();
     }, []);
@@ -154,8 +154,16 @@ const Profile = ({id, go}) => {
             setLoading(false);
         }
     };
+
     const updateUserPoints = async (pointsToAdd) => {
         try {
+            // Проверяем, был ли QR-код уже отсканирован
+            if (scannedQRCodes.includes(pointsToAdd)) {
+                // QR-код уже отсканирован, показываем предупреждение
+                openModalsDuplicateScan();
+                return;
+            }
+
             const user = await bridge.send('VKWebAppGetUserInfo');
             const userId = user.id;
 
@@ -219,6 +227,12 @@ const Profile = ({id, go}) => {
                 // Результат сканирования получен
                 console.log('Результат сканирования:', data.code_data);
 
+                // Проверяем, был ли QR-код уже отсканирован
+                if (scannedQRCodes.includes(data.code_data)) {
+                    // QR-код уже отсканирован, показываем предупреждение
+                    openModalsDuplicateScan();
+                    return;
+                }
                 // Обновляем баллы пользователя, используя данные с QR-кода
                 await updateUserPoints(data.code_data);
 
@@ -231,6 +245,8 @@ const Profile = ({id, go}) => {
                 // Устанавливаем результат в состояние компонента
                 setQrCodeData(data.code_data);
                 // Здесь вы можете выполнить дополнительные действия с результатом
+                // Добавляем отсканированный QR-код в состояние
+                setScannedQRCodes([...scannedQRCodes, data.code_data]);
             } else {
                 // Результат сканирования не содержит данных
                 console.log('Результат сканирования не содержит данных.');
@@ -261,7 +277,7 @@ const Profile = ({id, go}) => {
                     <Div style={{ textAlign: 'center' }}>
                         <img
                             style={{ width: '80%', borderRadius: '50%', marginTop: '10px' }}
-                            src={achievement1}
+                            src={persicSuccess}
                             alt="картинка"
                         />
                         <Text style={{ marginTop: '20px', fontSize: '18px' }}>
@@ -279,7 +295,39 @@ const Profile = ({id, go}) => {
         );
     };
 
+    const openModalsDuplicateScan = () => {
+        // Модальное окно с предупреждением о повторном сканировании
+        setModal(
+            <ModalRoot
+                onClose={() => setModal(null)}
+                activeModal="duplicateScanModal"
+            >
+                <ModalPage
+                    id="duplicateScanModal"
+                    onClose={() => setModal(null)}
+                    header={
+                        <ModalPageHeader
+                            left={<PanelHeaderClose onClick={() => setModal(null)} />}
+                        >
+                            Повторное сканирование
+                        </ModalPageHeader>
+                    }
+                >
+                    <Div style={{ textAlign: 'center' }}>
+                        <img
+                            style={{ width: '80%', borderRadius: '50%', marginTop: '10px' }}
+                            src={persicFail}
+                            alt="картинка"
+                        />
+                        <Text style={{ marginTop: '20px', fontSize: '18px' }}>
+                          ошибка
+                        </Text>
 
+                    </Div>
+                </ModalPage>
+            </ModalRoot>
+        );
+    };
 
     const renderUsersData = () => {
         if (loading || !usersData || usersData.length === 0) {

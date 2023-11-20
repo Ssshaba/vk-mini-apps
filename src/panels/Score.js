@@ -43,19 +43,29 @@ import bridge from "@vkontakte/vk-bridge";
 
 const Score = ({ id, go }) => {
   const [snackbar, setSnackbar] = useState(null);
-  const [userPhoto, setUserPhoto] = useState(null);
-
+  const [user, setUser] = useState({});
+  const [ServerUser, setServerUser] = useState({});
   useEffect(() => {
-    const fetchUserInfo = async () => {
+
+    const fetchUsersData = async () => {
       try {
-        const userData = await bridge.send('VKWebAppGetUserInfo');
-        setUserPhoto(userData.photo_100);
+        const user = await bridge.send('VKWebAppGetUserInfo');
+        setUser(user);
+
+        const userId = user.id;
+        console.log(user.id);
+        const response = await fetch(`https://persikivk.ru/api/user/${userId}`);
+        const data = await response.json();
+        setServerUser(data);
+        console.log('Исходные данные пользователей:', data);
+        console.log('Исходные данные пользователей:', data.points);
+
       } catch (error) {
-        console.error('Ошибка при получении информации о пользователе:', error);
+        console.error('Очки:', error);
+
       }
     };
-
-    fetchUserInfo();
+    fetchUsersData();
   }, []); // Пустой массив зависимостей гарантирует выполнение эффекта только при монтировании
 
 
@@ -188,27 +198,27 @@ const Score = ({ id, go }) => {
     };
 
 // Отправка события VKWebAppShowStoryBox с параметрами
-    bridge.send('VKWebAppShowStoryBox', storyParams);
+    await bridge.send('VKWebAppShowStoryBox', storyParams);
 
   };
 
-  const handleGetFriendsClick = async () => {
-    try {
-      // const tokenData = await bridge.send('VKWebAppGetAuthToken', {
-      //   app_id: 51766180,
-      //   scope: 'friends,status',
-      // });
-
-      const friendsData = await bridge.send('VKWebAppShare', {
-        link: 'https://vk.com/app51766180',
-      });
-      console.log(tokenData);
-      setFriends(friendsData.items);
-      setIsSnackbarShown(true);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const handleGetFriendsClick = async () => {
+  //   try {
+  //     // const tokenData = await bridge.send('VKWebAppGetAuthToken', {
+  //     //   app_id: 51766180,
+  //     //   scope: 'friends,status',
+  //     // });
+  //
+  //     const friendsData = await bridge.send('VKWebAppShare', {
+  //       link: 'https://vk.com/app51766180',
+  //     });
+  //     console.log(tokenData);
+  //     setFriends(friendsData.items);
+  //     setIsSnackbarShown(true);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const achievementsItems = [
     {
@@ -281,11 +291,11 @@ const Score = ({ id, go }) => {
               alt="Рамка для баллов"
               style={{ width: '90%', maxWidth: '90%' }}/>
             <Div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', display: 'flex', alignItems: 'center' , justifyContent: 'center' }}>
-              {userPhoto && (
+              {user.photo_100 && (
               <>
               <div style={{ marginRight: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Avatar
-                  src={userPhoto}
+                  src={user.photo_100}
                   size={100}
                   style={{
                     border: '3px solid #3CB6A2',
@@ -304,7 +314,7 @@ const Score = ({ id, go }) => {
                     padding: '1px 20px',
                   }}>
                     <Icon16DonateOultine style={{ color: 'white' }} />
-                    <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>0</Text>
+                    <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>{ServerUser.points}</Text>
                   </div>
                   <IconButton onClick={showStory}>
                     <Icon28ShareOutline fill="#007fff" />
