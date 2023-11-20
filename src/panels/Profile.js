@@ -263,14 +263,14 @@ const Profile = ({id, go}) => {
                 onClose={() => setModal(null)}
                 activeModal="qrModal"
             >
-                <ModalPage
+                <ModalCard
                     id="qrModal"
                     onClose={() => setModal(null)}
                     header={
-                        <ModalPageHeader
+                        <ModalPageHeader color='#2688EB'
                             left={<PanelHeaderClose onClick={() => setModal(null)} />}
                         >
-                            Поздравляю, вы получили баллы
+                            Поздравляю!
                         </ModalPageHeader>
                     }
                 >
@@ -280,9 +280,9 @@ const Profile = ({id, go}) => {
                             src={persicSuccess}
                             alt="картинка"
                         />
-                        <Text style={{ marginTop: '20px', fontSize: '18px' }}>
+                        <Title level="2" weight="semibold" style={{ marginTop: '20px'}}>
                             Вы получили {points} баллов
-                        </Text>
+                        </Title>
                         {/*/!* Добавляем блок с количеством баллов *!/*/}
                         {/*{receivedPoints && (*/}
                         {/*    <Text style={{ marginTop: '10px', color: '#888888' }}>*/}
@@ -290,7 +290,7 @@ const Profile = ({id, go}) => {
                         {/*    </Text>*/}
                         {/*)}*/}
                     </Div>
-                </ModalPage>
+                </ModalCard>
             </ModalRoot>
         );
     };
@@ -343,13 +343,13 @@ const Profile = ({id, go}) => {
                 key={user.id}
                 before={<Avatar src={user.photo100} size={48}/>}
                 after={
-                    <Div style={{display: 'flex', alignItems: 'center'}}>
+                    <>
                         <Text style={{
                             marginRight: '8px',
                             color: '#2787F5'
                         }}>{`${user.points || 0}`}</Text>
                         <Icon28DonateOutline style={{color: '#4CD964'}}/>
-                    </Div>
+                    </>
                 }
             >
                 {`${user.name}`}
@@ -370,10 +370,10 @@ const Profile = ({id, go}) => {
         return achievementsItems.map(({id, title, icon_139}) => (
             <HorizontalCell
                 key={id}
-                size="m"
+                size="l"
                 header={title}
                 style={{whiteSpace: 'normal'}}>
-                <Image size={88} borderRadius="l" src={icon_139}/>
+                <Image size={128} borderRadius="l" src={icon_139}/>
             </HorizontalCell>
         ));
     };
@@ -384,27 +384,23 @@ const Profile = ({id, go}) => {
                 <Panel id={id}>
                     <PanelHeader style={{textAlign: 'center'}} before={
                         <div onClick={go} data-to="score"
-                             style={{
-                                 display: 'flex',
-                                 justifyContent: 'center',
-                                 alignItems: 'center',
-                                 width: 'auto',
-                                 height: '30px',
-                                 background: 'linear-gradient(to right, #4DDA65, #298FE1)',
-                                 borderRadius: '9px',
-                                 boxShadow: '0px 4px 6px rgba(0, 0.3, 0, 0.3)',
-                                 padding: '1px 20px',
-                                 marginLeft: '20px'
-                             }}>
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: 'auto',
+                                height: '30px',
+                                background: 'linear-gradient(to right, #4DDA65, #298FE1)',
+                                borderRadius: '9px',
+                                boxShadow: '0px 4px 6px rgba(0, 0.3, 0, 0.3)',
+                                paddingLeft: '20px',
+                                paddingRight: '20px',
+                                marginLeft: '20px'
+                            }}>
                             <Icon16DonateOultine
                                 style={{color: 'white', width: '20px', height: '20px'}}/>
-                            <Text weight="2" style={{
-                                color: 'white',
-                                fontSize: '17px',
-                                paddingLeft: '5px'
-                            }}>0</Text>
                         </div>
-                    }>Профиль
+                        }>Профиль
                     </PanelHeader>
                     <div style={{
                         position: 'relative',
@@ -435,11 +431,12 @@ const Profile = ({id, go}) => {
                                     marginTop: '15px'
                                 }}
                             />}
-                            <Div style={{marginTop: '10px', textAlign: 'center'}}>
-                                <Text weight="1" style={{color: 'white'}}>
-                                    {userFirstName} {userLastName}
-                                </Text>
-                            </Div>
+                        <Div style={{ marginTop: '10px', textAlign: 'center' }}>
+                            <Title weight="semibold" level="1" style={{ color: 'white' }}>
+                                {userFirstName} {userLastName}
+                            </Title>
+                        </Div>
+
                         </Div>
                         <Div style={{position: 'absolute', top: '15px', right: '15px'}}>
                             <IconButton onClick={openCamera}>
@@ -458,8 +455,6 @@ const Profile = ({id, go}) => {
                         position: 'relative',
                         zIndex: '2',
                         marginTop: '-50px',
-                        overflowY: 'auto',
-                        height: 'calc(100vh - 50px)'
                     }}>
                         <Header>
                             <div style={{display: 'flex', alignItems: 'center'}}>

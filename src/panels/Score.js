@@ -37,7 +37,6 @@ import {
   Icon16DonateOultine,
   Icon28DonateOutline,
   Icon28ShareOutline,
-  Icon12Repost
 } from '@vkontakte/icons';
 import bridge from "@vkontakte/vk-bridge";
 
@@ -233,12 +232,12 @@ const Score = ({ id, go }) => {
     },
     {
       id: 3,
-      title: 'Мамина         гордость',
+      title: 'Мамина гордость',
       icon_139: achievement3,
     },
     {
       id: 4,
-      title: 'Oh yeah,       baby!',
+      title: 'Oh yeah, baby!',
       icon_139: achievement4,
     },
     {
@@ -255,8 +254,8 @@ const Score = ({ id, go }) => {
   
   const AchievementsItems = () => {
     return achievementsItems.map(({ id, title, icon_139 }) => (
-      <HorizontalCell key={id} size="m" header={title} style={{ whiteSpace: 'break-spaces' }}>
-        <Image size={88} borderRadius="l" src={icon_139} />
+      <HorizontalCell key={id} size="l" header={title} style={{ whiteSpace: 'break-spaces' }}>
+        <Image size={128} borderRadius="l" src={icon_139} />
       </HorizontalCell>
     ));
   };
@@ -350,10 +349,10 @@ const Score = ({ id, go }) => {
               />
             }
             after={
-              <Div style={{ display: 'flex', alignItems: 'center' }}>
-                <Text style={{ marginRight: '8px', color: '#2787F5' }}>20</Text>
+              <>
+                <Text style={{ color: '#2787F5' }}>20</Text>
                 <Icon28DonateOutline style={{ color: '#4CD964' }} />
-              </Div>
+              </>
             }
           >
             <Div>Брелок "Полосатый кот"</Div>
@@ -368,10 +367,10 @@ const Score = ({ id, go }) => {
               />
             }
             after={
-              <Div style={{ display: 'flex', alignItems: 'center' }}>
-                <Text style={{ marginRight: '8px', color: '#2787F5' }}>40</Text>
+              <>
+                <Text style={{ color: '#2787F5' }}>40</Text>
                 <Icon28DonateOutline style={{ color: '#4CD964' }} />
-              </Div>
+              </>
             }
           >
             <Div>Шариковая ручка</Div>
@@ -386,10 +385,10 @@ const Score = ({ id, go }) => {
               />
             }
             after={
-              <Div style={{ display: 'flex', alignItems: 'center' }}>
-                <Text style={{ marginRight: '8px', color: '#2787F5' }}>70</Text>
+              <>
+                <Text style={{ color: '#2787F5' }}>70</Text>
                 <Icon28DonateOutline style={{ color: '#4CD964' }} />
-              </Div>
+              </>
             }
           >
             <Div>Термокружка</Div>
@@ -404,10 +403,10 @@ const Score = ({ id, go }) => {
               />
             }
             after={
-              <Div style={{ display: 'flex', alignItems: 'center' }}>
-                <Text style={{ marginRight: '8px', color: '#2787F5' }}>100</Text>
+              <>
+                <Text style={{ color: '#2787F5' }}>100</Text>
                 <Icon28DonateOutline style={{ color: '#4CD964' }} />
-              </Div>
+              </>
             }
           >
             <Div>Powerbank</Div>
@@ -422,10 +421,10 @@ const Score = ({ id, go }) => {
               />
             }
             after={
-              <Div style={{ display: 'flex', alignItems: 'center' }}>
-                <Text style={{ marginRight: '8px', color: '#2787F5' }}>140</Text>
+              <>
+                <Text style={{ color: '#2787F5' }}>140</Text>
                 <Icon28DonateOutline style={{ color: '#4CD964' }} />
-              </Div>
+              </>
             }
           >
             <Div>Графический планшет</Div>
