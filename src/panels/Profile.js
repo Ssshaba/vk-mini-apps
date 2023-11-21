@@ -38,7 +38,7 @@ import product1 from '../img/product1.png';
 import product2 from '../img/product2.png';
 import achievement1 from '../img/newachievement1.png';
 import persicSuccess from '../img/persikQR1.png';
-import  persicFail from '../img/persikQR2.png';
+import persicFail from '../img/persikQR2.png';
 
 import bridge from "@vkontakte/vk-bridge";
 import {
@@ -130,22 +130,23 @@ const Profile = ({id, go}) => {
             }
         };
 
+
+
         fetchUserInfo();
         fetchUsersData();
     }, []);
-
 
     const fetchUsersData = async () => {
         try {
             const response = await fetch('https://persikivk.ru/api/user/');
             const data = await response.json();
 
-            console.log('Исходные данные пользователей:', data);
+            //console.log('Исходные данные пользователей:', data);
 
             // Сортируем пользователей по полю "points"
             const sortedUsers = data.slice().sort((a, b) => b.points - a.points);
 
-            console.log('Отсортированные данные пользователей:', sortedUsers);
+            // console.log('Отсортированные данные пользователей:', sortedUsers);
 
             setUsersData(sortedUsers);
             setLoading(false);
@@ -155,11 +156,19 @@ const Profile = ({id, go}) => {
         }
     };
 
+    // Функция для проверки, был ли QR-код уже отсканирован
+    const isQRCodeScanned = (qrCode) => {
+        const isScanned = scannedQRCodes.some(scanned => scanned.id === qrCode.id);
+        console.log(`QR Code with ID ${qrCode.id} ${isScanned ? 'is' : 'is not'} scanned.`);
+        return isScanned;
+    };
+
+    // Функция для обновления баллов пользователя
     const updateUserPoints = async (pointsToAdd) => {
         try {
-            // Проверяем, был ли QR-код уже отсканирован
-            if (scannedQRCodes.includes(pointsToAdd)) {
-                // QR-код уже отсканирован, показываем предупреждение
+            const decodedData = JSON.parse(pointsToAdd);
+
+            if (isQRCodeScanned(decodedData)) {
                 openModalsDuplicateScan();
                 return;
             }
@@ -167,46 +176,35 @@ const Profile = ({id, go}) => {
             const user = await bridge.send('VKWebAppGetUserInfo');
             const userId = user.id;
 
-            // Преобразуйте данные из QR-кода в число
-            const parsedPoints = parseInt(pointsToAdd, 10);
-
-            // Проверьте, является ли parsedPoints числовым значением
-            if (!isNaN(parsedPoints)) {
-                console.log('Parsed points:', parsedPoints); // Добавленный консоль-лог для отладки
-
-                // Определите URL для PUT-запроса
+            const pointValue = decodedData.pointValue;
+            if (!isNaN(pointValue)) {
                 const url = `https://persikivk.ru/api/user/plus-points/${userId}`;
-
-                // Определите данные, которые вы хотите отправить в теле запроса
                 const data = {
-                    pointsToAdd: parsedPoints
+                    pointsToAdd: pointValue
                 };
 
-                // Определите настройки запроса
                 const requestOptions = {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        // Добавьте любые другие необходимые заголовки
                     },
                     body: JSON.stringify(data)
                 };
 
-                // Выполните запрос с помощью функции fetch
                 const response = await fetch(url, requestOptions);
 
-                // Проверьте, успешен ли запрос (статус 200)
                 if (response.ok) {
                     console.log('Баллы успешно обновлены.');
-
-                    // Вызываем функцию для открытия модального окна после успешного обновления баллов
-                    openModals(parsedPoints);
-
-                    // Устанавливаем количество полученных баллов в состояние
-                    setReceivedPoints(parsedPoints);
-
-                    // Обновляем данные пользователей, чтобы отразить новые баллы в рейтинге
+                    openModals(pointValue);
+                    setReceivedPoints(pointValue);
                     fetchUsersData();
+
+                    // Устанавливаем новое состояние scannedQRCodes
+                    setScannedQRCodes(prevScannedQRCodes => {
+                        const newScannedQRCodes = [...prevScannedQRCodes, decodedData];
+                        console.log('Scanned QR Codes Updated:', newScannedQRCodes);
+                        return newScannedQRCodes;
+                    });
                 } else {
                     console.error('Ошибка при обновлении баллов:', response.status, response.statusText);
                 }
@@ -218,22 +216,20 @@ const Profile = ({id, go}) => {
         }
     };
 
-// Функция для открытия камеры
+    // Функция для открытия камеры
     const openCamera = async () => {
         try {
             const data = await bridge.send('VKWebAppOpenCodeReader');
 
             if (data.code_data) {
-                // Результат сканирования получен
                 console.log('Результат сканирования:', data.code_data);
+                const decodedData = JSON.parse(data.code_data);
 
-                // Проверяем, был ли QR-код уже отсканирован
-                if (scannedQRCodes.includes(data.code_data)) {
-                    // QR-код уже отсканирован, показываем предупреждение
+                if (isQRCodeScanned(decodedData)) {
                     openModalsDuplicateScan();
                     return;
                 }
-                // Обновляем баллы пользователя, используя данные с QR-кода
+
                 await updateUserPoints(data.code_data);
 
                 // Сохраняем результат в локальное хранилище
@@ -241,21 +237,19 @@ const Profile = ({id, go}) => {
                     key: 'qrCodeData',
                     value: data.code_data,
                 });
-
-                // Устанавливаем результат в состояние компонента
-                setQrCodeData(data.code_data);
-                // Здесь вы можете выполнить дополнительные действия с результатом
-                // Добавляем отсканированный QR-код в состояние
-                setScannedQRCodes([...scannedQRCodes, data.code_data]);
             } else {
-                // Результат сканирования не содержит данных
                 console.log('Результат сканирования не содержит данных.');
             }
         } catch (error) {
-            // Обработка ошибки
             console.error('Ошибка при открытии сканера кода:', error);
         }
     };
+
+    // useEffect для отслеживания изменений в scannedQRCodes
+    useEffect(() => {
+        console.log('Scanned QR Codes:', scannedQRCodes);
+        // Здесь можете выполнять дополнительные действия после изменения scannedQRCodes
+    }, [scannedQRCodes]);
 
     const openModals = (points) => {
         setModal(
@@ -268,25 +262,25 @@ const Profile = ({id, go}) => {
                     onClose={() => setModal(null)}
                     header={
                         <ModalPageHeader
-                            left={<PanelHeaderClose onClick={() => setModal(null)} />}
-                            style={{ color: '#2688EB' }}
+                            left={<PanelHeaderClose onClick={() => setModal(null)}/>}
+                            style={{color: '#2688EB'}}
                         >
                             Поздравляю!
                         </ModalPageHeader>
                     }
                 >
-                    <Div style={{ textAlign: 'center' }}>
+                    <Div style={{textAlign: 'center'}}>
                         <img
-                            style={{ width: '80%', borderRadius: '50%', marginTop: '10px' }}
+                            style={{width: '80%', borderRadius: '50%', marginTop: '10px'}}
                             src={persicSuccess}
                             alt="картинка"
                         />
-                        <Title 
-                            level="3" 
-                            weight="semibold" 
-                            style={{ marginTop: '20px', color: '#2688EB'}}
+                        <Title
+                            level="3"
+                            weight="semibold"
+                            style={{marginTop: '20px', color: '#2688EB'}}
                         >
-                            Вы получили <span style={{ color: '#4CD964' }}>{points}</span> баллов
+                            Вы получили <span style={{color: '#4CD964'}}>{points}</span> баллов
                         </Title>
                         {/*/!* Добавляем блок с количеством баллов *!/*/}
                         {/*{receivedPoints && (*/}
@@ -312,23 +306,23 @@ const Profile = ({id, go}) => {
                     onClose={() => setModal(null)}
                     header={
                         <ModalPageHeader
-                            left={<PanelHeaderClose onClick={() => setModal(null)} />}
-                            style={{ color: '#2688EB' }}
+                            left={<PanelHeaderClose onClick={() => setModal(null)}/>}
+                            style={{color: '#2688EB'}}
                         >
                             Ай-ай-ай!
                         </ModalPageHeader>
                     }
                 >
-                    <Div style={{ textAlign: 'center' }}>
+                    <Div style={{textAlign: 'center'}}>
                         <img
-                            style={{ width: '80%', borderRadius: '50%', marginTop: '10px' }}
+                            style={{width: '80%', borderRadius: '50%', marginTop: '10px'}}
                             src={persicFail}
                             alt="картинка"
                         />
-                        <Title 
-                            level="3" 
-                            weight="semibold" 
-                            style={{ marginTop: '20px', color: '#2688EB'}}
+                        <Title
+                            level="3"
+                            weight="semibold"
+                            style={{marginTop: '20px', color: '#2688EB'}}
                         >
                             К сожалению, Вы уже получили баллы за это мероприятие.
                         </Title>
@@ -377,12 +371,12 @@ const Profile = ({id, go}) => {
 
     const AchievementsItems = () => {
         return achievementsItems.map(({id, title, icon_139}) => (
-            <HorizontalCell key={id} size="l" style={{ whiteSpace: 'break-spaces', textAlign: 'center' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <Image size={128} borderRadius="l" src={icon_139} />
-              <div style={{ marginTop: '8px' }}>{title}</div>
-            </div>
-          </HorizontalCell>
+            <HorizontalCell key={id} size="l" style={{whiteSpace: 'break-spaces', textAlign: 'center'}}>
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                    <Image size={128} borderRadius="l" src={icon_139}/>
+                    <div style={{marginTop: '8px'}}>{title}</div>
+                </div>
+            </HorizontalCell>
         ));
     };
 
@@ -392,23 +386,23 @@ const Profile = ({id, go}) => {
                 <Panel id={id}>
                     <PanelHeader style={{textAlign: 'center'}} before={
                         <div onClick={go} data-to="score"
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                width: 'auto',
-                                height: '30px',
-                                background: 'linear-gradient(to right, #4DDA65, #298FE1)',
-                                borderRadius: '9px',
-                                boxShadow: '0px 4px 6px rgba(0, 0.3, 0, 0.3)',
-                                paddingLeft: '20px',
-                                paddingRight: '20px',
-                                marginLeft: '20px'
-                            }}>
+                             style={{
+                                 display: 'flex',
+                                 justifyContent: 'center',
+                                 alignItems: 'center',
+                                 width: 'auto',
+                                 height: '30px',
+                                 background: 'linear-gradient(to right, #4DDA65, #298FE1)',
+                                 borderRadius: '9px',
+                                 boxShadow: '0px 4px 6px rgba(0, 0.3, 0, 0.3)',
+                                 paddingLeft: '20px',
+                                 paddingRight: '20px',
+                                 marginLeft: '20px'
+                             }}>
                             <Icon16DonateOultine
                                 style={{color: 'white', width: '20px', height: '20px'}}/>
                         </div>
-                        }>Профиль
+                    }>Профиль
                     </PanelHeader>
                     <div style={{
                         position: 'relative',
@@ -439,11 +433,11 @@ const Profile = ({id, go}) => {
                                     marginTop: '15px'
                                 }}
                             />}
-                        <div style={{ marginTop: '10px', textAlign: 'center' }}>
-                            <Title weight="semibold" level="1" style={{ color: 'white' }}>
-                                {userFirstName} {userLastName}
-                            </Title>
-                        </div>
+                            <div style={{marginTop: '10px', textAlign: 'center'}}>
+                                <Title weight="semibold" level="1" style={{color: 'white'}}>
+                                    {userFirstName} {userLastName}
+                                </Title>
+                            </div>
 
                         </Div>
                         <Div style={{position: 'absolute', top: '15px', right: '15px'}}>
