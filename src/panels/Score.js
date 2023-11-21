@@ -254,8 +254,11 @@ const Score = ({ id, go }) => {
   
   const AchievementsItems = () => {
     return achievementsItems.map(({ id, title, icon_139 }) => (
-      <HorizontalCell key={id} size="l" header={title} style={{ whiteSpace: 'break-spaces' }}>
-        <Image size={128} borderRadius="l" src={icon_139} />
+      <HorizontalCell key={id} size="l" style={{ whiteSpace: 'break-spaces', textAlign: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Image size={128} borderRadius="l" src={icon_139} />
+          <div style={{ marginTop: '8px' }}>{title}</div>
+        </div>
       </HorizontalCell>
     ));
   };
@@ -310,7 +313,7 @@ const Score = ({ id, go }) => {
                     height: '30px',
                     background: 'linear-gradient(to right, #4DDA65, #298FE1)',
                     borderRadius: '9px',
-                    padding: '1px 20px',
+                    padding: '1px 15px',
                   }}>
                     <Icon16DonateOultine style={{ color: 'white' }} />
                     <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>{ServerUser.points}</Text>
@@ -349,10 +352,10 @@ const Score = ({ id, go }) => {
               />
             }
             after={
-              <>
-                <Text style={{ color: '#2787F5' }}>20</Text>
+              <Div style={{ display: 'flex', alignItems: 'center' }}>
+                <Text style={{ marginRight: '8px', color: '#2787F5' }}>20</Text>
                 <Icon28DonateOutline style={{ color: '#4CD964' }} />
-              </>
+              </Div>
             }
           >
             <Div>Брелок "Полосатый кот"</Div>
@@ -367,10 +370,10 @@ const Score = ({ id, go }) => {
               />
             }
             after={
-              <>
-                <Text style={{ color: '#2787F5' }}>40</Text>
+              <Div style={{ display: 'flex', alignItems: 'center' }}>
+                <Text style={{ marginRight: '8px', color: '#2787F5' }}>40</Text>
                 <Icon28DonateOutline style={{ color: '#4CD964' }} />
-              </>
+              </Div>
             }
           >
             <Div>Шариковая ручка</Div>
@@ -385,10 +388,10 @@ const Score = ({ id, go }) => {
               />
             }
             after={
-              <>
-                <Text style={{ color: '#2787F5' }}>70</Text>
+              <Div style={{ display: 'flex', alignItems: 'center' }}>
+                <Text style={{ marginRight: '8px', color: '#2787F5' }}>70</Text>
                 <Icon28DonateOutline style={{ color: '#4CD964' }} />
-              </>
+              </Div>
             }
           >
             <Div>Термокружка</Div>
@@ -403,10 +406,10 @@ const Score = ({ id, go }) => {
               />
             }
             after={
-              <>
-                <Text style={{ color: '#2787F5' }}>100</Text>
+              <Div style={{ display: 'flex', alignItems: 'center' }}>
+                <Text style={{ marginRight: '8px', color: '#2787F5' }}>100</Text>
                 <Icon28DonateOutline style={{ color: '#4CD964' }} />
-              </>
+              </Div>
             }
           >
             <Div>Powerbank</Div>
@@ -421,10 +424,10 @@ const Score = ({ id, go }) => {
               />
             }
             after={
-              <>
-                <Text style={{ color: '#2787F5' }}>140</Text>
+              <Div style={{ display: 'flex', alignItems: 'center' }}>
+                <Text style={{ marginRight: '8px', color: '#2787F5' }}>140</Text>
                 <Icon28DonateOutline style={{ color: '#4CD964' }} />
-              </>
+              </Div>
             }
           >
             <Div>Графический планшет</Div>

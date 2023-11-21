@@ -267,8 +267,9 @@ const Profile = ({id, go}) => {
                     id="qrModal"
                     onClose={() => setModal(null)}
                     header={
-                        <ModalPageHeader color='#2688EB'
+                        <ModalPageHeader
                             left={<PanelHeaderClose onClick={() => setModal(null)} />}
+                            style={{ color: '#2688EB' }}
                         >
                             Поздравляю!
                         </ModalPageHeader>
@@ -280,8 +281,12 @@ const Profile = ({id, go}) => {
                             src={persicSuccess}
                             alt="картинка"
                         />
-                        <Title level="2" weight="semibold" style={{ marginTop: '20px'}}>
-                            Вы получили {points} баллов
+                        <Title 
+                            level="3" 
+                            weight="semibold" 
+                            style={{ marginTop: '20px', color: '#2688EB'}}
+                        >
+                            Вы получили <div style={{ color: '#4CD964' }}>{points}</div> баллов
                         </Title>
                         {/*/!* Добавляем блок с количеством баллов *!/*/}
                         {/*{receivedPoints && (*/}
@@ -302,14 +307,15 @@ const Profile = ({id, go}) => {
                 onClose={() => setModal(null)}
                 activeModal="duplicateScanModal"
             >
-                <ModalPage
+                <ModalCard
                     id="duplicateScanModal"
                     onClose={() => setModal(null)}
                     header={
                         <ModalPageHeader
                             left={<PanelHeaderClose onClick={() => setModal(null)} />}
+                            style={{ color: '#2688EB' }}
                         >
-                            Повторное сканирование
+                            Ай-ай-ай!
                         </ModalPageHeader>
                     }
                 >
@@ -319,12 +325,15 @@ const Profile = ({id, go}) => {
                             src={persicFail}
                             alt="картинка"
                         />
-                        <Text style={{ marginTop: '20px', fontSize: '18px' }}>
-                          ошибка
-                        </Text>
-
+                        <Title 
+                            level="3" 
+                            weight="semibold" 
+                            style={{ marginTop: '20px', color: '#2688EB'}}
+                        >
+                            К сожалению, Вы уже получили баллы за это мероприятие.
+                        </Title>
                     </Div>
-                </ModalPage>
+                </ModalCard>
             </ModalRoot>
         );
     };
@@ -343,13 +352,13 @@ const Profile = ({id, go}) => {
                 key={user.id}
                 before={<Avatar src={user.photo100} size={48}/>}
                 after={
-                    <>
+                    <Div style={{display: 'flex', alignItems: 'center'}}>
                         <Text style={{
                             marginRight: '8px',
                             color: '#2787F5'
                         }}>{`${user.points || 0}`}</Text>
                         <Icon28DonateOutline style={{color: '#4CD964'}}/>
-                    </>
+                    </Div>
                 }
             >
                 {`${user.name}`}
@@ -368,13 +377,12 @@ const Profile = ({id, go}) => {
 
     const AchievementsItems = () => {
         return achievementsItems.map(({id, title, icon_139}) => (
-            <HorizontalCell
-                key={id}
-                size="l"
-                header={title}
-                style={{whiteSpace: 'normal'}}>
-                <Image size={128} borderRadius="l" src={icon_139}/>
-            </HorizontalCell>
+            <HorizontalCell key={id} size="l" style={{ whiteSpace: 'break-spaces', textAlign: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Image size={128} borderRadius="l" src={icon_139} />
+              <div style={{ marginTop: '8px' }}>{title}</div>
+            </div>
+          </HorizontalCell>
         ));
     };
 
@@ -431,11 +439,11 @@ const Profile = ({id, go}) => {
                                     marginTop: '15px'
                                 }}
                             />}
-                        <Div style={{ marginTop: '10px', textAlign: 'center' }}>
+                        <div style={{ marginTop: '10px', textAlign: 'center' }}>
                             <Title weight="semibold" level="1" style={{ color: 'white' }}>
                                 {userFirstName} {userLastName}
                             </Title>
-                        </Div>
+                        </div>
 
                         </Div>
                         <Div style={{position: 'absolute', top: '15px', right: '15px'}}>
@@ -443,7 +451,7 @@ const Profile = ({id, go}) => {
                                 <img
                                     src={QRCodeButton}
                                     alt="QRCodeButton"
-                                    style={{width: '60px', height: '60px'}}
+                                    style={{width: '50px', height: '50px'}}
                                 />
                             </IconButton>
                         </Div>
