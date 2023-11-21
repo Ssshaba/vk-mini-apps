@@ -286,7 +286,7 @@ const Profile = ({id, go}) => {
                             weight="semibold" 
                             style={{ marginTop: '20px', color: '#2688EB'}}
                         >
-                            Вы получили <div style={{ color: '#4CD964' }}>{points}</div> баллов
+                            Вы получили <span style={{ color: '#4CD964' }}>{points}</span> баллов
                         </Title>
                         {/*/!* Добавляем блок с количеством баллов *!/*/}
                         {/*{receivedPoints && (*/}

@@ -174,6 +174,7 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                 .then((response) => response.json())
                 .then((data) => setEventInfo(data))
                 .catch((error) => console.error('Ошибка при загрузке данных:', error));
+
         }
     }, [selectedEventId]);
 
@@ -307,7 +308,7 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                                 </Title>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                     <Icon16DonateOultine fill="var(--vkui--color_icon_positive)" style={{ marginRight: '8px' }} />
-                                    <Text weight="2" style={{ marginBottom: 0 }}>{eventInfo.points} баллов</Text>
+                                    <Text weight="2" style={{ marginBottom: 0 }}>{eventInfo.pointValue} баллов</Text>
                                 </div>
 
                                 <Text weight="3">{eventInfo.location} · {eventInfo.date}</Text>
