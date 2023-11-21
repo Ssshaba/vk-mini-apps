@@ -157,18 +157,33 @@ const Profile = ({id, go}) => {
     };
 
     // Функция для проверки, был ли QR-код уже отсканирован
-    const isQRCodeScanned = (qrCode) => {
-        const isScanned = scannedQRCodes.some(scanned => scanned.id === qrCode.id);
-        console.log(`QR Code with ID ${qrCode.id} ${isScanned ? 'is' : 'is not'} scanned.`);
-        return isScanned;
+    const isQRCodeScanned = async (qrCode) => {
+        try {
+            const storageData = await bridge.send('VKWebAppStorageGet', {
+                keys: ['scannedQRCodes']
+            });
+
+            const scannedQRCodes = storageData.keys ? JSON.parse(storageData.keys[0].value) : [];
+
+            const isScanned = scannedQRCodes.some(scanned => scanned.id === qrCode.id);
+            console.log(`QR Code with ID ${qrCode.id} ${isScanned ? 'is' : 'is not'} scanned.`);
+
+            return isScanned;
+        } catch (error) {
+            console.error('Error checking if QR code is scanned:', error);
+            return false;
+        }
     };
 
     // Функция для обновления баллов пользователя
-    const updateUserPoints = async (pointsToAdd) => {
+    const updateUserPoints = async (pointsToAdd, qrCode) => {
         try {
+            // Декодируем JSON, чтобы получить данные
             const decodedData = JSON.parse(pointsToAdd);
 
-            if (isQRCodeScanned(decodedData)) {
+            // Проверяем, был ли QR-код уже отсканирован
+            if (await isQRCodeScanned(decodedData)) {
+                // QR-код уже отсканирован, показываем предупреждение
                 openModalsDuplicateScan();
                 return;
             }
@@ -176,13 +191,20 @@ const Profile = ({id, go}) => {
             const user = await bridge.send('VKWebAppGetUserInfo');
             const userId = user.id;
 
+            // Проверьте, является ли pointValue числовым значением
             const pointValue = decodedData.pointValue;
             if (!isNaN(pointValue)) {
+                console.log('Point Value:', pointValue);
+
+                // Определите URL для PUT-запроса
                 const url = `https://persikivk.ru/api/user/plus-points/${userId}`;
+
+                // Определите данные, которые вы хотите отправить в теле запроса
                 const data = {
                     pointsToAdd: pointValue
                 };
 
+                // Определите настройки запроса
                 const requestOptions = {
                     method: 'PUT',
                     headers: {
@@ -191,20 +213,30 @@ const Profile = ({id, go}) => {
                     body: JSON.stringify(data)
                 };
 
+                // Выполните запрос с помощью функции fetch
                 const response = await fetch(url, requestOptions);
 
+                // Проверьте, успешен ли запрос (статус 200)
                 if (response.ok) {
                     console.log('Баллы успешно обновлены.');
+
+                    // Вызываем функцию для открытия модального окна после успешного обновления баллов
                     openModals(pointValue);
+
+                    // Устанавливаем количество полученных баллов в состояние
                     setReceivedPoints(pointValue);
+
+                    // Обновляем данные пользователей, чтобы отразить новые баллы в рейтинге
                     fetchUsersData();
 
-                    // Устанавливаем новое состояние scannedQRCodes
-                    setScannedQRCodes(prevScannedQRCodes => {
-                        const newScannedQRCodes = [...prevScannedQRCodes, decodedData];
-                        console.log('Scanned QR Codes Updated:', newScannedQRCodes);
-                        return newScannedQRCodes;
+                    // Добавляем отсканированный QR-код в состояние хранилища
+                    await bridge.send('VKWebAppStorageSet', {
+                        key: 'scannedQRCodes',
+                        value: JSON.stringify([...scannedQRCodes, qrCode])
                     });
+
+                    console.log('Scanned QR Codes Updated:', [...scannedQRCodes, qrCode]);
+                    console.log('Scanned QR Codes:', scannedQRCodes);
                 } else {
                     console.error('Ошибка при обновлении баллов:', response.status, response.statusText);
                 }
@@ -225,12 +257,13 @@ const Profile = ({id, go}) => {
                 console.log('Результат сканирования:', data.code_data);
                 const decodedData = JSON.parse(data.code_data);
 
-                if (isQRCodeScanned(decodedData)) {
+                if (await isQRCodeScanned(decodedData)) {
                     openModalsDuplicateScan();
                     return;
                 }
 
-                await updateUserPoints(data.code_data);
+                // Передаем данные о сканированном QR-коде в updateUserPoints
+                await updateUserPoints(data.code_data, decodedData);
 
                 // Сохраняем результат в локальное хранилище
                 await bridge.send('VKWebAppStorageSet', {
