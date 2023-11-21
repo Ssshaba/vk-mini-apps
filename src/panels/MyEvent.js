@@ -20,7 +20,7 @@ import {
 import './styles/Persik.css';
 import sadPersik from '../img/newSadPersik.png';
 import bridge from "@vkontakte/vk-bridge";
-import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon28UserCircleOutline, Icon16DonateOultine, Icon24ShareOutline} from "@vkontakte/icons";
+import {Icon28CalendarOutline, Icon28FavoriteOutline, Icon28UserCircleOutline, Icon16DonateOultine, Icon20ShareOutline} from "@vkontakte/icons";
 
 
 const MyEvent = ({ id, go, handleMyEventClick }) => {
@@ -101,16 +101,16 @@ const MyEvent = ({ id, go, handleMyEventClick }) => {
                             </Div>
                         ) : (
                             userEvents.map(event => (
-                                <Div key={event.Event.eventId}>
+                                <Div key={event.Event.eventId} style={{  display: 'flex', justifyContent: 'center' }}>
                                     <ContentCard
                                         style={{width: '100%', objectFit: 'cover', height: '350' }}
                                         maxHeight={350}
                                         onClick={() => handleMyEventClick(event.Event.id)}
-                                        header={event.Event.name}
+                                        header={<div style={{ fontSize: '17px', fontWeight: 'bold' }}>{event.Event.name}</div>}
                                         src={event.Event.image}
 
                                         caption={
-                                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                                                 <div >
                                                     <Text>{`Дата:  ${event.Event.date}`}</Text>
                                                 </div>
@@ -120,7 +120,7 @@ const MyEvent = ({ id, go, handleMyEventClick }) => {
                                                     handleGetFriendsClick(); // Вызов вашей функции
                                                 }}
                                                 >
-                                                    <Icon24ShareOutline/>
+                                                    <Icon20ShareOutline style={{marginTop: '8px'}}/>
                                                 </Div>
                                             </div>
                                         }

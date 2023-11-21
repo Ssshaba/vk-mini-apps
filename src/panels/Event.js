@@ -321,7 +321,8 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                                 <Title level="2" weight="bold" style={{fontSize: '22px', paddingBottom: '16px'}}>
                                     Описание
                                 </Title>
-                                <Text weight="regular" style={{paddingBottom: '20px'}}>{eventInfo.description}</Text>
+                                <Text weight="regular" >{eventInfo.description}</Text>
+                                <Spacing size={60} />
                             </Div>
                         </div>
                     ) : (
