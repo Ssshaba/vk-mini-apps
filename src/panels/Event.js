@@ -304,7 +304,7 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                                 style={{width: '100%', maxWidth: '100%'}}
                             />
 
-                            <Div style={{padding: 20, textAlign: 'left'}}>
+                            <Div style={{ textAlign: 'left'}}>
                                 <Title level="1" weight="bold" style={{fontSize: '22px'}}>
                                     {eventInfo.name}
                                 </Title>
@@ -315,9 +315,11 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                                 </div>
                                 <Spacing size={11} />
                                 <Text weight="3" style={{color: '#818C99'}}>{eventInfo.date} · {eventInfo.startTime} · {eventInfo.location}</Text>
-                                <Spacing size={30} >
-                                    <Separator />
-                                </Spacing>
+                            </Div>
+                            <Spacing size={5} >
+                                <Separator />
+                            </Spacing>
+                            <Div style={{padding: 20, textAlign: 'left'}}>
                                 <Title level="2" weight="bold" style={{fontSize: '22px', paddingBottom: '16px'}}>
                                     Описание
                                 </Title>
