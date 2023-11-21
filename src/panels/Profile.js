@@ -433,7 +433,7 @@ const Profile = ({id, go}) => {
                                 }}
                             />}
                             <div style={{marginTop: '10px', textAlign: 'center'}}>
-                                <Title weight="3" level="1" style={{color: 'white'}}>
+                                <Title weight="2" level="2" style={{color: 'white'}}>
                                     {userFirstName} {userLastName}
                                 </Title>
                             </div>
