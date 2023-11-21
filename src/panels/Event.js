@@ -19,6 +19,8 @@ import {
     FormItem,
     Input,
     Select,
+    Separator,
+    Spacing,
     FormLayout, Snackbar, ButtonGroup
 } from '@vkontakte/vkui';
 import {Icon16DonateOultine, Icon28CancelCircleFillRed, Icon28CheckCircleOutline} from "@vkontakte/icons";
@@ -302,22 +304,24 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                                 style={{width: '100%', maxWidth: '100%'}}
                             />
 
-                            <Div style={{padding: 20, textAlign: 'left', marginBottom: '45px'}}>
+                            <Div style={{padding: 20, textAlign: 'left'}}>
                                 <Title level="1" weight="bold" style={{fontSize: '22px'}}>
                                     {eventInfo.name}
                                 </Title>
+                                <Spacing size={11} />
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                     <Icon16DonateOultine fill="var(--vkui--color_icon_positive)" style={{ marginRight: '8px' }} />
-                                    <Text weight="2" style={{ marginBottom: 0 }}>{eventInfo.pointValue} баллов</Text>
+                                    <Text weight="1" style={{ marginBottom: 0 }}>{eventInfo.pointValue}<span style={{fontSize: '16px', fontWeight: 'lighter'}}> баллов</span></Text>
                                 </div>
-
-                                <Text weight="3">{eventInfo.location} · {eventInfo.date}</Text>
-                                <Title level="2" weight="bold"
-                                       style={{fontSize: '22px', paddingTop: '16px', paddingBottom: '16px'}}>
+                                <Spacing size={11} />
+                                <Text weight="3" style={{color: '#818C99'}}>{eventInfo.date} · {eventInfo.startTime} · {eventInfo.location}</Text>
+                                <Spacing size={30} >
+                                    <Separator />
+                                </Spacing>
+                                <Title level="2" weight="bold" style={{fontSize: '22px', paddingBottom: '16px'}}>
                                     Описание
                                 </Title>
                                 <Text weight="regular" style={{paddingBottom: '20px'}}>{eventInfo.description}</Text>
-
                             </Div>
                         </div>
                     ) : (
@@ -330,7 +334,7 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                 <SplitLayout modal={modal}>
                     <FixedLayout filled vertical="bottom">
                         <Group mode={"card"}>
-                            <Div>
+                            <Div style={{color: '#2787F5'}}>
                                 <Button stretched size="l" onClick={handleRegister} >
                                     Записаться
                                 </Button>

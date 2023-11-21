@@ -271,7 +271,7 @@ const Profile = ({id, go}) => {
                 >
                     <Div style={{textAlign: 'center'}}>
                         <img
-                            style={{width: '80%', borderRadius: '50%', marginTop: '10px'}}
+                            style={{width: '80%', marginTop: '10px'}}
                             src={persicSuccess}
                             alt="картинка"
                         />
@@ -315,7 +315,7 @@ const Profile = ({id, go}) => {
                 >
                     <Div style={{textAlign: 'center'}}>
                         <img
-                            style={{width: '80%', borderRadius: '50%', marginTop: '10px'}}
+                            style={{width: '80%', marginTop: '10px'}}
                             src={persicFail}
                             alt="картинка"
                         />
@@ -430,11 +430,10 @@ const Profile = ({id, go}) => {
                                 size={100}
                                 style={{
                                     border: '3px solid #3CB6A2',
-                                    marginTop: '15px'
                                 }}
                             />}
                             <div style={{marginTop: '10px', textAlign: 'center'}}>
-                                <Title weight="semibold" level="1" style={{color: 'white'}}>
+                                <Title weight="3" level="1" style={{color: 'white'}}>
                                     {userFirstName} {userLastName}
                                 </Title>
                             </div>
