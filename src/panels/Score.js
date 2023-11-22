@@ -167,7 +167,7 @@ const Score = ({ id, go }) => {
       can_delete: 0,
       action_type: "text",
       action: {
-        text: "Ваш текст здесь",
+        text: `Ваши баллы: ${ServerUser.points}`,
         style: "cursive",
         selection_color: "#BC27DE",
       },
@@ -183,12 +183,12 @@ const Score = ({ id, go }) => {
 
     const storyParams = {
       background_type: "image",
-      url: "https://raw.githubusercontent.com/Ssshaba/Foto-for-Story-VK/main/STORY2.png",
+      url: "https://raw.githubusercontent.com/Ssshaba/Foto-for-Story-VK/main/StoryPoint.png",
       stickers: [
-        {
-          sticker_type: "renderable",
-          sticker: renderableStickerImage,
-        },
+        // {
+        //   sticker_type: "renderable",
+        //   sticker: renderableStickerImage,
+        // },
         {
           sticker_type: "native",
           sticker: nativeStickerText,

@@ -21,10 +21,11 @@ import {
     Select,
     Separator,
     Spacing,
-    FormLayout, Snackbar, ButtonGroup
+    FormLayout, Snackbar, ButtonGroup, ModalCard
 } from '@vkontakte/vkui';
 import {Icon16DonateOultine, Icon28CancelCircleFillRed, Icon28CheckCircleOutline} from "@vkontakte/icons";
 import bridge from "@vkontakte/vk-bridge";
+import persicFail from '../img/persikQR2.png';
 
 const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
     const [eventInfo, setEventInfo] = useState(null);
@@ -40,6 +41,8 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
     const [snackbar, setSnackbar] = useState(null);
     const [hasSentData, setHasSentData] = useState(false);
 
+
+    const [RegisterModal, setRegisterModal] = useState(null); // Состояние модального окна
 
 
     useEffect(() => {
@@ -180,6 +183,44 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
         }
     }, [selectedEventId]);
 
+    const openModalsDuplicateRegister = () => {
+        // Модальное окно с предупреждением о повторном сканировании
+        setRegisterModal(
+            <ModalRoot
+                onClose={() => setRegisterModal(null)}
+                activeModal="duplicateScanModal"
+            >
+                <ModalCard
+                    id="duplicateScanModal"
+                    onClose={() => setRegisterModal(null)}
+                    header={
+                        <ModalPageHeader
+                            left={<PanelHeaderClose onClick={() => setRegisterModal(null)}/>}
+                            style={{color: '#2688EB'}}
+                        >
+                            Ай-ай-ай!
+                        </ModalPageHeader>
+                    }
+                >
+                    <Div style={{textAlign: 'center'}}>
+                        <img
+                            style={{width: '80%', marginTop: '10px'}}
+                            src={persicFail}
+                            alt="картинка"
+                        />
+                        <Title
+                            level="3"
+                            weight="semibold"
+                            style={{marginTop: '20px', color: '#2688EB'}}
+                        >
+                            Вы уже записались на это мероприятие!
+                        </Title>
+                    </Div>
+                </ModalCard>
+            </ModalRoot>
+        );
+    };
+
 
     const modal = (
         <ModalRoot activeModal={modalActive}>
@@ -250,13 +291,9 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
 
     const handleRegister = async () => {
         try {
-
-
-
             // Замените userId и eventId на актуальные значения
-            const userId = parseInt(user.id, 10);  // или любой другой способ получения идентификатора пользователя
-            const eventId = parseInt(selectedEventId, 10);  // или любой другой способ получения идентификатора мероприятия
-
+            const userId = parseInt(user.id, 10);
+            const eventId = parseInt(selectedEventId, 10);
 
             if (!userId || !eventId) {
                 console.error('Неверные идентификаторы пользователя или мероприятия');
@@ -273,7 +310,6 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                     <Snackbar
                         onClose={() => {
                             setSnackbar(null);
-                            // Закрываем окно только после успешной отправки
                             go({currentTarget: {dataset: {to: 'myevent'}}});
                         }}
                         before={<Icon28CheckCircleOutline fill="var(--vkui--color_icon_positive)"/>}
@@ -281,6 +317,10 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                         Данные успешно отправлены!
                     </Snackbar>
                 );
+            } else if (res.status === 400) {
+                console.error('Ты уже зарегистрирован на это мероприятие');
+                // Здесь вы можете добавить дополнительные действия для обработки ошибки 400
+                openModalsDuplicateRegister();
             } else {
                 console.error('Ошибка при записи пользователя на мероприятие');
             }
@@ -288,6 +328,7 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
             console.error('Ошибка при выполнении запроса:', error);
         }
     };
+
 
 
     return (
@@ -334,6 +375,7 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                     )}
 
                 </Group>
+                <SplitLayout modal={RegisterModal}></SplitLayout>
                 <SplitLayout modal={modal}>
                     <FixedLayout filled vertical="bottom">
                         <Group mode={"card"}>
