@@ -167,23 +167,24 @@ const Score = ({ id, go }) => {
       can_delete: 0,
       action_type: "text",
       action: {
-        text: `Ваши баллы: ${ServerUser.points}`,
+        text: `Мои баллы: ${ServerUser.points}`,
         style: "cursive",
-        selection_color: "#BC27DE",
+       // selection_color: "#BC27DE",
+        fontWeight: "bold",
       },
 
       transform: {
         rotation: 0, // Поворот текста
         relation_width: 0.5, // Желаемая ширина текста относительно экрана
         translation_x: 0, // Сдвиг текста по оси X от начального положения в плоскости XY
-        translation_y: 0.15, // Сдвиг текста по оси Y от начального положения в плоскости XY
+        translation_y: -0.01, // Сдвиг текста по оси Y от начального положения в плоскости XY
         gravity: "center" // Расположение текста
       }
     };
 
     const storyParams = {
       background_type: "image",
-      url: "https://raw.githubusercontent.com/Ssshaba/Foto-for-Story-VK/main/StoryPoint.png",
+      url: "https://raw.githubusercontent.com/Ssshaba/Foto-for-Story-VK/main/StoryPoints1.png",
       stickers: [
         // {
         //   sticker_type: "renderable",

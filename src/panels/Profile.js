@@ -405,12 +405,91 @@ const Profile = ({id, go}) => {
     const AchievementsItems = () => {
         return achievementsItems.map(({id, title, icon_139}) => (
             <HorizontalCell key={id} size="l" style={{whiteSpace: 'break-spaces', textAlign: 'center'}}>
-                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                    <Image size={128} borderRadius="l" src={icon_139}/>
+                <div onClick={showStory} style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                    <Image  size={128} borderRadius="l" src={icon_139}/>
                     <div style={{marginTop: '8px'}}>{title}</div>
                 </div>
             </HorizontalCell>
         ));
+    };
+
+
+    const showStory = async () => {
+
+        const renderableStickerImage = {
+            content_type: "image", // Тип объекта-стикера (в данном случае, изображение)
+            url: "https://raw.githubusercontent.com/Ssshaba/Foto-for-Story-VK/main/achievement1.png", // Ссылка на картинку
+            // ИЛИ
+            // blob: "data:image/png;base64,<base64-image-data>", // Данные изображения, закодированные как Base64
+
+            transform: {
+                // Параметры, описывающие поворот или смещение стикера в создаваемой истории
+                rotation: 0, // Поворот против часовой стрелки в градусах
+                relation_width: 0.3, // Желаемая ширина стикера относительно экрана
+                translation_x: 0, // Сдвиг стикера по оси X от начального положения в плоскости XY
+                translation_y: 0, // Сдвиг стикера по оси Y от начального положения в плоскости XY
+                gravity: "center" // Расположение стикера
+            },
+
+            clickable_zones: [
+                // Массив областей в стикере, нажатие на которые может вызвать какое-либо действие
+                {
+                    action_type: "link", // Тип области (в данном случае, ссылка)
+                    action: {
+                        link: "https://vk.com/wall-166562603_1192", // Ссылка, которая будет открыта при нажатии
+                        tooltip_text_key: "tooltip_open_post"
+                    },
+                    clickable_area: [
+                        // Массив координат области
+                        { x: 17, y: 110 },
+                        { x: 97, y: 110 },
+                        { x: 97, y: 132 },
+                        { x: 17, y: 132 }
+                    ]
+                }
+                // Добавьте другие области, если необходимо
+            ],
+
+            can_delete: true // Информация о том, может ли пользователь удалить стикер из истории
+        };
+
+        const nativeStickerText = {
+            can_delete: 0,
+            action_type: "text",
+            action: {
+                text: `Мои баллы:`,
+                style: "cursive",
+                // selection_color: "#BC27DE",
+                fontWeight: "bold",
+            },
+
+            transform: {
+                rotation: 0, // Поворот текста
+                relation_width: 0.5, // Желаемая ширина текста относительно экрана
+                translation_x: 0, // Сдвиг текста по оси X от начального положения в плоскости XY
+                translation_y: -0.01, // Сдвиг текста по оси Y от начального положения в плоскости XY
+                gravity: "center" // Расположение текста
+            }
+        };
+
+        const storyParams = {
+            background_type: "image",
+            url: "https://raw.githubusercontent.com/Ssshaba/Foto-for-Story-VK/main/StoryAchieve11.png",
+            stickers: [
+                // {
+                //   sticker_type: "renderable",
+                //   sticker: renderableStickerImage,
+                // },
+                // {
+                //     sticker_type: "native",
+                //     sticker: nativeStickerText,
+                // },
+            ],
+        };
+
+// Отправка события VKWebAppShowStoryBox с параметрами
+        await bridge.send('VKWebAppShowStoryBox', storyParams);
+
     };
 
     return (
@@ -501,7 +580,7 @@ const Profile = ({id, go}) => {
                         <Separator/>
                         <Group header={<Header>Достижения</Header>}>
                             <HorizontalScroll>
-                                <div style={{display: 'flex'}}>
+                                <div  style={{display: 'flex'}}>
                                     <AchievementsItems/>
                                 </div>
                             </HorizontalScroll>
