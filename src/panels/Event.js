@@ -25,7 +25,7 @@ import {
 } from '@vkontakte/vkui';
 import {Icon16DonateOultine, Icon28CancelCircleFillRed, Icon28CheckCircleOutline} from "@vkontakte/icons";
 import bridge from "@vkontakte/vk-bridge";
-import persicFail from '../img/persikQR2.png';
+import persicFailRegister from '../img/failRegisterPersic.png';
 
 const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
     const [eventInfo, setEventInfo] = useState(null);
@@ -205,7 +205,7 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                     <Div style={{textAlign: 'center'}}>
                         <img
                             style={{width: '80%', marginTop: '10px'}}
-                            src={persicFail}
+                            src={persicFailRegister}
                             alt="картинка"
                         />
                         <Title
