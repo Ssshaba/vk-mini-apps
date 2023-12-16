@@ -66,7 +66,8 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
     const fetchData = async () => {
         try {
             const user = await bridge.send('VKWebAppGetUserInfo');
-            console.log('Информация о пользователе:', user);
+
+            //console.log('Информация о пользователе:', user);
             setUser(user);
         } catch (error) {
             console.error('Ошибка при получении информации о пользователе:', error);
@@ -126,7 +127,7 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
             };
 
             // Выводим данные в консоль перед отправкой
-            console.log('Данные для отправки на сервер:', dataToSend);
+            //console.log('Данные для отправки на сервер:', dataToSend);
 
             // Отправляем данные на сервер
             const response = await fetch('https://persikivk.ru/api/user/create', {
@@ -244,7 +245,29 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
                                 {value: '1', label: 'МКиМТ'},
                                 {value: '2', label: 'ПЛ'},
                                 {value: '3', label: 'АММИУ'},
-                                {value: '4', label: 'АП'}
+                                {value: '4', label: 'АП'},
+                                {value: '5', label: 'Авиа'},
+                                {value: '6', label: 'Асп'},
+                                {value: '7', label: 'Атк'},
+                                {value: '8', label: 'БЖиИЭ'},
+                                {value: '9', label: 'БиоВетМед'},
+                                {value: '10', label: 'ДТ'},
+                                {value: '11', label: 'ИБиМ'},
+                                {value: '12', label: 'ИОТ'},
+                                {value: '13', label: 'ИПМ'},
+                                {value: '14', label: 'ИС'},
+                                {value: '15', label: 'ИСТ'},
+                                {value: '16', label: 'ИФКиС'},
+                                {value: '17', label: 'КиМТ'},
+                                {value: '18', label: 'КЭУП'},
+                                {value: '19', label: 'ПГС'},
+                                {value: '20', label: 'ППД'},
+                                {value: '21', label: 'СГ'},
+                                {value: '22', label: 'СТ'},
+                                {value: '23', label: 'ТМ'},
+                                {value: '24', label: 'ТСиЭ'},
+                                {value: '25', label: 'ШАДИ'},
+                                {value: '26', label: 'ЭиНГП'}
                             ]}
                             value={faculty}
                             onChange={(e) => setFaculty(e.target.value)}/>
@@ -305,7 +328,7 @@ const Event = ({id, go, activePanel, setActivePanel, selectedEventId}) => {
             });
 
             if (res.ok) {
-                console.log('Пользователь успешно записан на мероприятие');
+                //console.log('Пользователь успешно записан на мероприятие');
                 setSnackbar(
                     <Snackbar
                         onClose={() => {

@@ -15,7 +15,7 @@ const Home = ({id, go, fetchedUser,  handleEventClick}) => {
             const friendsData = await bridge.send('VKWebAppShare', {
                 link: 'https://vk.com/app51766180',
             });
-            console.log(tokenData);
+            //console.log(tokenData);
             setFriends(friendsData.items);
         } catch (error) {
             console.error(error);

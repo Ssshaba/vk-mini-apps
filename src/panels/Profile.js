@@ -34,8 +34,8 @@ import {
 import './styles/Persik.css';
 import BGforProfile from '../img/BGforProfile.png';
 import QRCodeButton from '../img/QRCodeButton.png';
-import product1 from '../img/product1.png';
-import product2 from '../img/product2.png';
+import product1 from '../img/product11.png';
+import product2 from '../img/product21.png';
 import achievement1 from '../img/newachievement1.png';
 import persicSuccess from '../img/persikQR1.png';
 import persicFail from '../img/persikQR2.png';
@@ -166,7 +166,7 @@ const Profile = ({id, go}) => {
             const scannedQRCodes = storageData.keys ? JSON.parse(storageData.keys[0].value) : [];
 
             const isScanned = scannedQRCodes.some(scanned => scanned.id === qrCode.id);
-            console.log(`QR Code with ID ${qrCode.id} ${isScanned ? 'is' : 'is not'} scanned.`);
+            //console.log(`QR Code with ID ${qrCode.id} ${isScanned ? 'is' : 'is not'} scanned.`);
 
             return isScanned;
         } catch (error) {
@@ -194,7 +194,7 @@ const Profile = ({id, go}) => {
             // Проверьте, является ли pointValue числовым значением
             const pointValue = decodedData.pointValue;
             if (!isNaN(pointValue)) {
-                console.log('Point Value:', pointValue);
+               // console.log('Point Value:', pointValue);
 
                 // Определите URL для PUT-запроса
                 const url = `https://persikivk.ru/api/user/plus-points/${userId}`;
@@ -218,7 +218,7 @@ const Profile = ({id, go}) => {
 
                 // Проверьте, успешен ли запрос (статус 200)
                 if (response.ok) {
-                    console.log('Баллы успешно обновлены.');
+                    //console.log('Баллы успешно обновлены.');
 
                     // Вызываем функцию для открытия модального окна после успешного обновления баллов
                     openModals(pointValue);
@@ -235,8 +235,8 @@ const Profile = ({id, go}) => {
                         value: JSON.stringify([...scannedQRCodes, qrCode])
                     });
 
-                    console.log('Scanned QR Codes Updated:', [...scannedQRCodes, qrCode]);
-                    console.log('Scanned QR Codes:', scannedQRCodes);
+                  //  console.log('Scanned QR Codes Updated:', [...scannedQRCodes, qrCode]);
+                  //  console.log('Scanned QR Codes:', scannedQRCodes);
                 } else {
                     console.error('Ошибка при обновлении баллов:', response.status, response.statusText);
                 }
@@ -254,7 +254,7 @@ const Profile = ({id, go}) => {
             const data = await bridge.send('VKWebAppOpenCodeReader');
 
             if (data.code_data) {
-                console.log('Результат сканирования:', data.code_data);
+              //  console.log('Результат сканирования:', data.code_data);
                 const decodedData = JSON.parse(data.code_data);
 
                 if (await isQRCodeScanned(decodedData)) {
@@ -271,7 +271,7 @@ const Profile = ({id, go}) => {
                     value: data.code_data,
                 });
             } else {
-                console.log('Результат сканирования не содержит данных.');
+              //  console.log('Результат сканирования не содержит данных.');
             }
         } catch (error) {
             console.error('Ошибка при открытии сканера кода:', error);
@@ -280,7 +280,7 @@ const Profile = ({id, go}) => {
 
     // useEffect для отслеживания изменений в scannedQRCodes
     useEffect(() => {
-        console.log('Scanned QR Codes:', scannedQRCodes);
+        //console.log('Scanned QR Codes:', scannedQRCodes);
         // Здесь можете выполнять дополнительные действия после изменения scannedQRCodes
     }, [scannedQRCodes]);
 
@@ -396,7 +396,7 @@ const Profile = ({id, go}) => {
     const achievementsItems = [
         {
             id: 1,
-            title: 'Почуствовал вкус',
+            title: 'Почувствовал вкус',
             icon_139: achievement1,
         },
 
@@ -606,7 +606,7 @@ const Profile = ({id, go}) => {
                                         />
                                     }
                                 >
-                                    <Div>Брелок "Полосатый кот"</Div>
+                                    <Div>Брелок "Лапка"</Div>
                                 </CellButton>
                                 <CellButton
                                     style={{
@@ -627,7 +627,7 @@ const Profile = ({id, go}) => {
                                         />
                                     }
                                 >
-                                    <Div>Шариковая ручка</Div>
+                                    <Div>Ежедневник</Div>
                                 </CellButton>
                             </Div>
                         </Group>

@@ -39,7 +39,7 @@ const Record = ({ id, go }) => {
     const fetchData = async () => {
       try {
         const user = await bridge.send('VKWebAppGetUserInfo');
-        console.log('Информация о пользователе:', user);
+       // console.log('Информация о пользователе:', user);
         setUser(user);
       } catch (error) {
         console.error('Ошибка при получении информации о пользователе:', error);
@@ -109,7 +109,7 @@ const Record = ({ id, go }) => {
         };
   
         // Выводим данные в консоль перед отправкой
-        console.log('Данные для отправки на сервер:', dataToSend);
+        //console.log('Данные для отправки на сервер:', dataToSend);
   
         // Отправляем данные на сервер
         const response = await fetch('https://persikivk.ru/api/user/create', {
@@ -123,7 +123,7 @@ const Record = ({ id, go }) => {
         if (response.ok) {
           // Обработка успешного ответа от сервера
           // Выводим информацию о данных и их формате в консоли
-            console.log('Данные успешно отправлены на сервер. Ответ сервера:', await response.json());
+           // console.log('Данные успешно отправлены на сервер. Ответ сервера:', await response.json());
             setSnackbar(
                 <Snackbar
                   onClose={() => {
@@ -164,7 +164,7 @@ const Record = ({ id, go }) => {
                                 value={name}
                                 onChange={(e) => {
                                     setFullName(e.target.value)
-                                    console.log(e.target.value)
+                                    //console.log(e.target.value)
                                 }}
                             />
                         </FormItem>

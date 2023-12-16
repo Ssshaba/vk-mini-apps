@@ -20,11 +20,11 @@ import {
 } from '@vkontakte/vkui';
 import wrapperForScore from '../img/wrapperForScore.png';
 import gift from '../img/gift.png';
-import product1 from '../img/product1.png';
-import product2 from '../img/product2.png';
-import product3 from '../img/product3.png';
-import product4 from '../img/product4.png';
-import product5 from '../img/product5.png';
+import product1 from '../img/product11.png';
+import product2 from '../img/product21.png';
+import product3 from '../img/product31.png';
+import product4 from '../img/product41.png';
+import product5 from '../img/product51.png';
 import achievement1 from '../img/newachievement1.png';
 import achievement2 from '../img/lockedachievement2.png';
 import achievement3 from '../img/lockedachievement3.png';
@@ -38,6 +38,7 @@ import {
   Icon28DonateOutline,
   Icon28ShareOutline,
 } from '@vkontakte/icons';
+import { Icon28StoryOutline } from '@vkontakte/icons';
 import bridge from "@vkontakte/vk-bridge";
 
 const Score = ({ id, go }) => {
@@ -52,16 +53,15 @@ const Score = ({ id, go }) => {
         setUser(user);
 
         const userId = user.id;
-        console.log(user.id);
+        //console.log(user.id);
         const response = await fetch(`https://persikivk.ru/api/user/${userId}`);
         const data = await response.json();
         setServerUser(data);
-        console.log('Исходные данные пользователей:', data);
-        console.log('Исходные данные пользователей:', data.points);
+        //console.log('Исходные данные пользователей:', data);
+        //console.log('Исходные данные пользователей:', data.points);
 
       } catch (error) {
         console.error('Очки:', error);
-
       }
     };
     fetchUsersData();
@@ -114,9 +114,9 @@ const Score = ({ id, go }) => {
 
       if (storyData.code_data) {
         // Редактор историй открыт
-        console.log(storyData);
+        //console.log(storyData);
       } else {
-        console.log('История не была опубликована');
+        //console.log('История не была опубликована');
       }
     } catch (error) {
       // Ошибка
@@ -164,13 +164,13 @@ const Score = ({ id, go }) => {
     };
 
     const nativeStickerText = {
-      can_delete: 0,
+      can_delete: false,
       action_type: "text",
       action: {
-        text: `Мои баллы: ${ServerUser.points}`,
-        style: "cursive",
-       // selection_color: "#BC27DE",
-        fontWeight: "bold",
+        text: `Мои баллы: ${ServerUser.points || 0}`,
+        //style: "cursive",
+        selection_color: "#ffffff",
+        //fontWeight: "bold",
       },
 
       transform: {
@@ -178,7 +178,8 @@ const Score = ({ id, go }) => {
         relation_width: 0.5, // Желаемая ширина текста относительно экрана
         translation_x: 0, // Сдвиг текста по оси X от начального положения в плоскости XY
         translation_y: -0.01, // Сдвиг текста по оси Y от начального положения в плоскости XY
-        gravity: "center" // Расположение текста
+        gravity: "center", // Расположение текста
+        fixed: true, // Зафиксировать положение стикера
       }
     };
 
@@ -223,7 +224,7 @@ const Score = ({ id, go }) => {
   const achievementsItems = [
     {
       id: 1,
-      title: 'Почуствовал вкус',
+      title: 'Почувствовал вкус',
       icon_139: achievement1,
     },
     {
@@ -317,10 +318,10 @@ const Score = ({ id, go }) => {
                     padding: '1px 15px',
                   }}>
                     <Icon16DonateOultine style={{ color: 'white' }} />
-                    <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>{ServerUser.points}</Text>
+                    <Text weight="2" style={{ color: 'white', fontSize: '17px', paddingLeft: '5px' }}>{ServerUser.points || 0}</Text>
                   </div>
                   <IconButton onClick={showStory}>
-                    <Icon28ShareOutline fill="#007fff" />
+                    <Icon28StoryOutline  style={{ color: '#298FE1' }} />
                   </IconButton>
                 </div>
               </div>
@@ -354,13 +355,15 @@ const Score = ({ id, go }) => {
             }
             after={
               <Div style={{ display: 'flex', alignItems: 'center' }}>
-                <Text style={{ marginRight: '8px', color: '#2787F5' }}>20</Text>
+                <Text style={{ marginRight: '8px', color: '#2787F5' }}>70</Text>
                 <Icon28DonateOutline style={{ color: '#4CD964' }} />
               </Div>
             }
           >
-            <Div>Брелок "Полосатый кот"</Div>
+            <Div>Брелок "Лапка"</Div>
+
           </CellButton>
+          
           <CellButton
             style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px' }}
             onClick={() => handleCellButtonClick(id)}
@@ -372,12 +375,12 @@ const Score = ({ id, go }) => {
             }
             after={
               <Div style={{ display: 'flex', alignItems: 'center' }}>
-                <Text style={{ marginRight: '8px', color: '#2787F5' }}>40</Text>
+                <Text style={{ marginRight: '8px', color: '#2787F5' }}>150</Text>
                 <Icon28DonateOutline style={{ color: '#4CD964' }} />
               </Div>
             }
           >
-            <Div>Шариковая ручка</Div>
+            <Div> <Text>Ежедневник</Text> </Div>
           </CellButton>
           <CellButton
             style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px' }}
@@ -390,12 +393,12 @@ const Score = ({ id, go }) => {
             }
             after={
               <Div style={{ display: 'flex', alignItems: 'center' }}>
-                <Text style={{ marginRight: '8px', color: '#2787F5' }}>70</Text>
+                <Text style={{ marginRight: '8px', color: '#2787F5' }}>500</Text>
                 <Icon28DonateOutline style={{ color: '#4CD964' }} />
               </Div>
             }
           >
-            <Div>Термокружка</Div>
+            <Div> <Text>Термокружка</Text> </Div>
           </CellButton>
           <CellButton
             style={{ color: 'black', backgroundColor: '#F2FCF4', marginBottom: '10px', borderRadius: '10px' }}
@@ -408,7 +411,7 @@ const Score = ({ id, go }) => {
             }
             after={
               <Div style={{ display: 'flex', alignItems: 'center' }}>
-                <Text style={{ marginRight: '8px', color: '#2787F5' }}>100</Text>
+                <Text style={{ marginRight: '8px', color: '#2787F5' }}>640</Text>
                 <Icon28DonateOutline style={{ color: '#4CD964' }} />
               </Div>
             }
@@ -426,12 +429,12 @@ const Score = ({ id, go }) => {
             }
             after={
               <Div style={{ display: 'flex', alignItems: 'center' }}>
-                <Text style={{ marginRight: '8px', color: '#2787F5' }}>140</Text>
+                <Text style={{ marginRight: '8px', color: '#2787F5' }}>1000</Text>
                 <Icon28DonateOutline style={{ color: '#4CD964' }} />
               </Div>
             }
           >
-            <Div>Графический планшет</Div>
+            <Div>Наушники</Div>
           </CellButton>
           </Div>
         </Group>
